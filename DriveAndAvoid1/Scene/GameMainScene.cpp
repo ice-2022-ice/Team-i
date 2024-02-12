@@ -24,7 +24,7 @@ void GameMainScene::Initialize()
 	// 画像の読み込み
 	back_ground = LoadGraph("Resource/images/back.bmp");
 	barrier_image = LoadGraph("Resource/images/barrier.png");
-	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 63, 120, enemy_image);
+	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 30, 30, enemy_image);
 	// エラーチェック
 	if (back_ground == -1) {
 		throw("画像back.bmpがありません\n");
