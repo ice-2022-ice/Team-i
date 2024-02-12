@@ -27,12 +27,12 @@ void Player::Initialize()
 	barrier_count = 3;
 
 	//画像の読み込み
-	image = LoadGraph("Resource/images/car1pol.bmp");
+	image = LoadGraph("Resource/images/bakuha.bmp");//car1pol.bmp
 
 	//エラーチェック
 	if (image == -1)
 	{
-		throw("Resource/images/car1pol.bmpがありません。\n");
+		throw("Resource/images/bakuha.bmpがありません。\n");
 	}
 }
 
