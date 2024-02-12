@@ -189,7 +189,7 @@ bool RankingInputScene::InputName()
 		}
 		else if (cursor_y < 4)
 		{
-			name[name_num++] = 'a' + cursor_x + ((cursor_y - 2) * 13);
+			name[name_num++] = 'A' + cursor_x + ((cursor_y - 2) * 13);
 			if (name_num == 14)
 			{
 				cursor_x = 0;
