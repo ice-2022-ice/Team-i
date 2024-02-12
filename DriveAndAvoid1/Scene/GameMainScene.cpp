@@ -3,7 +3,7 @@
 #include "DxLib.h"
 #include <math.h>
 
-GameMainScene::GameMainScene() :high_score(0), back_ground(NULL), barrier_image(NULL), mileage(0), player(nullptr),
+GameMainScene::GameMainScene() :back_ground(NULL), player(nullptr),
 enemy(nullptr) {
 	for (int i = 0; i < 3; i++)
 	{
@@ -18,12 +18,9 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Initialize()
 {
-	// 最高点を読み込む
-	ReadHighScore();
 
 	// 画像の読み込み
 	back_ground = LoadGraph("Resource/images/back.bmp");
-	barrier_image = LoadGraph("Resource/images/barrier.png");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 63, 120, enemy_image);
 	// エラーチェック
 	if (back_ground == -1) {
@@ -31,9 +28,6 @@ void GameMainScene::Initialize()
 	}
 	if (result == -1) {
 		throw("画像car.bmpがありません\n");
-	}
-	if (barrier_image == -1) {
-		throw("画像barrier_imageがありません\n");
 	}
 
 	// オブジェクトの生成
@@ -53,12 +47,10 @@ eSceneType GameMainScene::Update()
 	// プレイヤーの更新
 	player->Update();
 
-	// 移動量距離の更新 playerスピードを取得して+５した値をmileageに+する（毎フレーム）
-	mileage += (int)player->GetSpeed() + 5;
-
 	// 敵生成処理
+	int time = player->GetTime();
 
-	if (mileage / 20 % 100 == 0) {
+	if (time % 25 == 0) {
 		for (int i = 0; i < 10; i++) {
 			// 値がnullなら
 			if (enemy[i] == nullptr) {
@@ -76,12 +68,11 @@ eSceneType GameMainScene::Update()
 		// 値がnullでないなら
 		if (enemy[i] != nullptr) 
 		{
-			enemy[i]->Update(player->GetSpeed());
+			enemy[i]->Update(5);
 
 			// 画面外に行ったら、敵を消去してスコア加算
 			if (enemy[i]->GetLocation().y >= 640.0f) 
 			{
-				enemy_count[enemy[i]->GetType()]++;
 				enemy[i]->Finalize();
 				delete enemy[i];	// メモリ開放
 				enemy[i] = nullptr;// nullにする
@@ -90,8 +81,8 @@ eSceneType GameMainScene::Update()
 			//当たり判定の確認
 			if (IsHitCheck(player, enemy[i]))
 			{
-				player->SetActive(false);
-				player->DecreaseHp(-50.0f);
+				enemy_count[enemy[i]->GetType()]++;
+				power += enemy[i]->GetType() + 1;
 				enemy[i]->Finalize();
 				delete enemy[i];
 				enemy[i] = nullptr;
@@ -100,7 +91,7 @@ eSceneType GameMainScene::Update()
 	}
 
 	// プレイヤーの燃料か体力が０未満なら、リザルトに遷移する
-	if (player->GetFuel() < 0.0f || player->GetHp() < 0.0f)
+	if (player->GetTime() < 0.0f)
 	{
 		return eSceneType::E_RESULT;
 	}
@@ -110,9 +101,7 @@ eSceneType GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-	// 背景画像の描画
-	DrawGraph(0, mileage % 480 - 480, back_ground, TRUE);
-	DrawGraph(0, mileage % 480, back_ground, TRUE);
+	DrawGraph(0, 0, back_ground, TRUE);
 
 	// 敵の描画
 	for (int i = 0; i < 10; i++)
@@ -129,8 +118,8 @@ void GameMainScene::Draw() const
 	// UIの描画
 	DrawBox(500, 0, 640, 480, GetColor(0, 153, 0), TRUE);
 	SetFontSize(16);
-	DrawFormatString(510, 20, GetColor(0, 0, 0), "ハイスコア");
-	DrawFormatString(560, 40, GetColor(255, 255, 255), "%08d", high_score);
+	DrawFormatString(510, 20, GetColor(0, 0, 0), "パワー");
+	DrawFormatString(560, 40, GetColor(255, 255, 255), "%d", power);
 	DrawFormatString(510, 80, GetColor(0, 0, 0), "避けた数");
 
 	for (int i = 0; i < 3; i++) 
@@ -139,64 +128,17 @@ void GameMainScene::Draw() const
 		DrawFormatString(510 + (i*50),140,GetColor(255, 255, 255), "%03d",enemy_count[i]);
 	}
 
-	DrawFormatString(510, 200, GetColor(0, 0, 0), "走行距離");
-	DrawFormatString(555, 220, GetColor(255, 255, 255), "%08d", mileage / 10);
-	DrawFormatString(510, 240, GetColor(0, 0, 0), "スピード");
-	DrawFormatString(555, 260, GetColor(255, 255, 255), "%08.1f",player->GetSpeed());
-
-	// バリア枚数描画
-	for (int i = 0; i < player->GetBarriarCount(); i++)
-	{
-		DrawRotaGraph(520 + i * 25, 340, 0.2f, 0, barrier_image, TRUE, FALSE);
-	}
-
 	// 燃料ゲージの描画
 	float fx = 510.0f;
 	float fy = 390.0f;
-	DrawFormatStringF(fx, fy, GetColor(0, 0, 0), "FUEL METER");
-	DrawBoxAA(fx, fy + 20.0f, fx + (player->GetFuel() * 100 / 20000), fy +
+	DrawFormatStringF(fx, fy, GetColor(0, 0, 0), "TIME");
+	DrawBoxAA(fx, fy + 20.0f, fx + (player->GetTime() * 100 / 1800), fy +
 		40.0f, GetColor(0, 102, 204), TRUE);
-	DrawBoxAA(fx, fy + 20.0f, fx + 100.0f, fy + 40.0f, GetColor(0, 0, 0), FALSE);
-	// 体力ゲージの描画
-	fx = 510.0f;
-	fy = 430.0f;
-	DrawFormatStringF(fx, fy, GetColor(0, 0, 0), "PLAYER HP");
-	DrawBoxAA(fx, fy + 20.0f, fx + (player->GetHp() * 100 / 1000), fy +
-		40.0f, GetColor(255, 0, 0), TRUE);
 	DrawBoxAA(fx, fy + 20.0f, fx + 100.0f, fy + 40.0f, GetColor(0, 0, 0), FALSE);
 }
 
 void GameMainScene::Finalize()
 {
-	// スコア加算する
-	int score = (mileage / 10 * 10);
-	for (int i = 0; i < 3; i++)
-	{
-		score += (i + 1) * 50 * enemy_count[i];
-	}
-
-	// リザルトデータの書き込み
-	FILE* fp = nullptr;
-	// ファイルオープン
-	errno_t result = fopen_s(&fp, "Resource/dat/result_data.csv", "w");
-
-	// エラーチェック
-	if (result != 0)
-	{
-		throw("Resource/dat/result_data.csvが開けません\n");
-	}
-	// スコアを保存
-	fprintf(fp, "%d,\n", score);
-
-	// 避けた数と得点を保存
-	for (int i = 0; i < 3; i++)
-	{
-		fprintf(fp, "%d,\n", enemy_count[i]);
-	}
-
-	// ファイルクローズ
-	fclose(fp);
-
 	// 動的確保したオブジェクトを消去する
 	player->Finalize();
 	delete player;
@@ -219,24 +161,9 @@ eSceneType GameMainScene::GetNowScene() const
 	return eSceneType::E_MAIN;
 }
 
-// ハイスコア読込
-void GameMainScene::ReadHighScore()
-{
-	RankingData data;
-	data.Initialize();
-
-	high_score = data.GetScore(0);
-
-	data.Finalize();
-}
-
 // あたり判定処理（プレイヤーと敵）
 bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
 {
-	// プレイヤーがバリアを張っていたら当たり判定無し
-	if (p->IsBarrier()) {
-		return false;
-	}
 
 	// 敵情報がなければ、当たり判定を無視する
 	if (e == nullptr) {

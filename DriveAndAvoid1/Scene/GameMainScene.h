@@ -6,10 +6,8 @@
 class GameMainScene:public SceneBase
 {
 private:
-	int high_score;			// ハイスコア
+	int power;				// 現在のパワー
 	int back_ground;		// 背景画像
-	int barrier_image;		// バリア画像
-	int mileage;			// 走行距離
 	int enemy_image[3];		// 敵画像
 	int enemy_count[3];		// 通り過ぎた敵のカウント
 	Player* player;			// プレイヤー
@@ -26,8 +24,6 @@ public:
 	virtual eSceneType GetNowScene() const override;
 
 private:
-	// ハイスコア読込処理
-	void ReadHighScore();
 	// あたり判定
 	bool IsHitCheck(Player* p, Enemy* e);
 };
