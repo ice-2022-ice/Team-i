@@ -8,6 +8,8 @@
 #include "RankingDispScene.h"
 #include "RankingInputScene.h"
 
+#include"NewGameScene.h"
+
 SceneManager::SceneManager() : current_scene(nullptr)
 {
 
@@ -158,6 +160,10 @@ SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 		return new TitleScene;
 	case eSceneType::E_MAIN:
 		return new GameMainScene;
+
+	case eSceneType::E_NGS:
+		return new NewGameScene;
+
 	case eSceneType::E_RESULT:
 		return new ResultScene;
 	case eSceneType::E_HELP:
