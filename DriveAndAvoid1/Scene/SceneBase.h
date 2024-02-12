@@ -9,7 +9,10 @@ enum eSceneType
 	E_RANKING_DISP,
 	E_RANKING_INPUT,
 	E_RESULT,
-	E_END
+	E_END,
+
+	E_NGS
+
 };
 
 //基底シーンクラス
