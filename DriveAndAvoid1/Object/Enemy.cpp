@@ -15,19 +15,19 @@ Enemy::~Enemy()
 void Enemy::Initialize() 
 {
 	// 出題させるX座標パターン取得
-	float random_x = (float)(GetRand(4) * 105 + 40);
+	float random_x = (float)(GetRand(420) + 40);
 	// 生成位置の設定
 	location = Vector2D(random_x, -50.0f);
 	// あたり判定の設定
-	box_size = Vector2D(31.0f, 60.0f);
+	box_size = Vector2D(20.0f, 20.0f);
 	// 速さの設定
-	speed = (float)(this->type * 2);
+	speed = (float)(this->type) + (1.f + (float)GetRand(20) / 10.f);
 }
 
 void Enemy::Update(float speed) 
 {
 	// 位置情報に移動量を加算する
-	location += Vector2D(0.0f, this->speed + speed - 6);
+	location += Vector2D(0.0f, this->speed + speed - 4);
 }
 
 void Enemy::Draw()const
