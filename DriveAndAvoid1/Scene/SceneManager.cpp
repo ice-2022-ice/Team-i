@@ -161,8 +161,8 @@ SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 	case eSceneType::E_MAIN:
 		return new GameMainScene;
 
-	case eSceneType::E_NGS:
-		return new NewGameScene;
+	//case eSceneType::E_NGS:
+	//	return new NewGameScene;
 
 	case eSceneType::E_RESULT:
 		return new ResultScene;

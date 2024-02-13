@@ -11,6 +11,8 @@ private:
 	int menu_image;					//メニュー画像
 	int cursor_image;				//カーソル画像
 	int menu_cursor;			//メニューカーソル番号
+	int selectbgm_image;        //カーソル移動BGM
+	int decisionbgm_image;      //決定BGM
 
 public:
 	TitleScene();

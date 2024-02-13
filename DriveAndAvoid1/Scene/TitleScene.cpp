@@ -3,7 +3,7 @@
 #include "DxLib.h"
 
 TitleScene::TitleScene() : background_image(NULL), menu_image(NULL),
-cursor_image(NULL), menu_cursor(0)
+cursor_image(NULL), menu_cursor(0),selectbgm_image(NULL),decisionbgm_image(NULL)
 {
 
 }
@@ -23,6 +23,10 @@ void TitleScene::Initialize()
 
 	cursor_image = LoadGraph("Resource/images/cone.bmp");
 
+	//BGMの読み込み
+	selectbgm_image = LoadSoundMem("Resource/images/maou_se_system26.mp3");
+	decisionbgm_image = LoadSoundMem("Resource/images/maou_se_system27.mp3");
+
 	//エラーチェック
 	if (background_image == -1)
 	{
@@ -36,6 +40,14 @@ void TitleScene::Initialize()
 	{
 		throw("Resource/images/cone.bmpがありません\n");
 	}
+	if (selectbgm_image == -1)
+	{
+		throw("Resource/images/maou_se_system26.mp3がありません\n");
+	}
+	if (decisionbgm_image == -1)
+	{
+		throw("Resource / images / maou_se_system27.mp3がありません\n");
+	}
 }
 
 eSceneType TitleScene::Update()
@@ -44,6 +56,11 @@ eSceneType TitleScene::Update()
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
 	{
 		menu_cursor++;
+		//BGMが流れてないときに再生
+		if (CheckSoundMem(selectbgm_image) != TRUE)
+		{
+			PlaySoundMem(selectbgm_image, DX_PLAYTYPE_BACK, FALSE);
+		}
 		//一番下に到達したら、一番上にする
 		if (menu_cursor > 3)
 		{
@@ -56,6 +73,12 @@ eSceneType TitleScene::Update()
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_UP))
 	{
 		menu_cursor--;
+
+		//BGMが流れてないときに再生
+		if (CheckSoundMem(selectbgm_image) != TRUE)
+		{
+			PlaySoundMem(selectbgm_image, DX_PLAYTYPE_BACK, FALSE);
+		}
 		//一番下に到達したら、一番下にする
 		if (menu_cursor < 0)
 		{
@@ -66,6 +89,11 @@ eSceneType TitleScene::Update()
 	//カーソル決定（決定した画面に遷移する）
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
+		//BGMが流れてないときに再生
+		if (CheckSoundMem(decisionbgm_image) != TRUE)
+		{
+			PlaySoundMem(decisionbgm_image, DX_PLAYTYPE_BACK, FALSE);
+		}
 		switch (menu_cursor)
 		{
 		case 0:
