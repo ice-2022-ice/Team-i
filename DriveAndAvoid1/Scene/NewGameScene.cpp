@@ -1,10 +1,10 @@
-#include "NewGameScene.h"
+ï»¿#include "NewGameScene.h"
 #include"DxLib.h"
 #include <math.h>
 
 NewGameScene::NewGameScene()
 {
-
+	Initialize();
 }
 
 NewGameScene::~NewGameScene()
@@ -12,41 +12,96 @@ NewGameScene::~NewGameScene()
 
 }
 
-
-//‰Šú‰»ˆ—
+//åˆæœŸåŒ–å‡¦ç†
 void NewGameScene::Initialize()
 {
-	//‰æ‘œ‚Ì“Ç‚İ‚İ
-	
+	//ãƒ‘ãƒ¯ãƒ¼æ±ºå®š
+	Power = 70.0f;
+	Nowpower = 0;
 
-	//ƒGƒ‰[ƒ`ƒFƒbƒN
-	/*if ( == -1)
+	phase = 1;
+	anim_time = 0;
+
+	//ç”»åƒã®èª­ã¿è¾¼ã¿
+	int resultStr = LoadDivGraph("Resource/images/Stringimage.png", 2, 2, 1, 100, 100, String_image);
+	int resultExp = LoadDivGraph("Resource/images/explosion.png", 16, 4, 4, 32, 32, Explosion_image);
+	Back_image = LoadGraph("Resource/images/blowback.png");
+
+	//ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
+	if (resultStr == -1)
 	{
-		throw("Resource/images/Title.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
-	}*/
+		throw("Resource/images/Stringimage.pngãŒã‚ã‚Šã¾ã›ã‚“\n");
+	}
+
 }
-//XVˆ—
+//æ›´æ–°å‡¦ç†
 eSceneType NewGameScene::Update()
 {
+	if (phase == 1) 
+	{
+		if (120 < anim_time) 
+		{
+			if (0 < Power) 
+			{
+				Power -= 0.3;
+				Nowpower += 0.3;
+				if (Power < 0)
+				{
+					Power = 0;
+					anim_time = 0;
+				}
+			}
+			else
+			{
+
+			}
+		}
+	}
+
+	anim_time++;
 	return GetNowScene();
 }
 
-//•`‰æˆ—
+//æç”»å‡¦ç†
 void NewGameScene::Draw() const
 {
-	SetFontSize(16);
-	DrawString(20, 120, "ƒjƒ…[ƒQ[ƒ€‰æ–Ê", 0xffffff, 0);
+	if (phase == 1)
+	{
+		//èƒŒæ™¯ç”»åƒ
+		DrawGraph(0, 0, Back_image, TRUE);
+
+		//æ–‡å­—ç”»åƒ
+		float size = Nowpower * 0.05 + 1;
+		int num = anim_time / 4;
+		//çˆ†ç™ºã™ã‚‹ã¾ã§ã€Œçˆ†ã€ã®æ–‡å­—ã‚’è¡¨ç¤º
+		if (0 < Power || num < 4) DrawRotaGraph(640 / 2 - (50 * size), 480 / 2, size, 0, String_image[0], true);
+
+		//ã€Œç¬‘ã€ã®æ–‡å­—ã‚’è¡¨ç¤ºãƒ»ç§»å‹•
+		if (0 < Power || anim_time < 12)DrawRotaGraph(640 / 2 + 50, 480 / 2, 1.f, 0, String_image[1], true);
+		else DrawRotaGraph(640 / 2 + 50 + (anim_time - 12) * 60, 480 / 2 - (anim_time - 12) * 50, 1.f, (anim_time - 12), String_image[1], true);
+
+		//çˆ†ç™º
+		size = Nowpower * 0.05 + 1;
+		if (Power <= 0 && num < 16)
+		{
+			DrawRotaGraph(640 / 2 - (50 * size), 480 / 2, size + 25, 0, Explosion_image[num], true);
+		}
+
+		SetFontSize(64);
+		DrawFormatString(50, 50, 0xffffff, "%.1f", Power);
+	}
 }
 
-//I—¹ˆ—
+//çµ‚äº†å‡¦ç†
 void NewGameScene::Finalize()
 {
-	//“Ç‚İ‚ñ‚¾‰æ‘œ‚Ìíœ
+	//èª­ã¿è¾¼ã‚“ã ç”»åƒã®å‰Šé™¤
 	/*DeleteGraph();*/
 }
 
-//Œ»İ‚ÌƒV[ƒ“î•ñæ“¾
+//ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³æƒ…å ±å–å¾—
 eSceneType NewGameScene::GetNowScene() const
 {
 	return eSceneType::E_NGS;
 }
+
