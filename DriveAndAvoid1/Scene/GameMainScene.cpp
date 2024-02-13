@@ -1,9 +1,9 @@
-#include "GameMainScene.h"
+ï»¿#include "GameMainScene.h"
 #include "../Object/RankingData.h"
 #include "DxLib.h"
 #include <math.h>
 
-GameMainScene::GameMainScene() :high_score(0), back_ground(NULL), barrier_image(NULL), mileage(0), player(nullptr),
+GameMainScene::GameMainScene() :back_ground(NULL), player(nullptr),
 enemy(nullptr) {
 	for (int i = 0; i < 3; i++)
 	{
@@ -18,29 +18,23 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Initialize()
 {
-	// Å‚“_‚ğ“Ç‚İ‚Ş
-	ReadHighScore();
 
-	// ‰æ‘œ‚Ì“Ç‚İ‚İ
+	// ç”»åƒã®èª­ã¿è¾¼ã¿
 	back_ground = LoadGraph("Resource/images/back.bmp");
-	barrier_image = LoadGraph("Resource/images/barrier.png");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 30, 30, enemy_image);
-	// ƒGƒ‰[ƒ`ƒFƒbƒN
+	// ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 	if (back_ground == -1) {
-		throw("‰æ‘œback.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("ç”»åƒback.bmpãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 	if (result == -1) {
-		throw("‰æ‘œcar.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
-	}
-	if (barrier_image == -1) {
-		throw("‰æ‘œbarrier_image‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("ç”»åƒcar.bmpãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 
-	// ƒIƒuƒWƒFƒNƒg‚Ì¶¬
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆ
 	player = new Player;
 	enemy = new Enemy * [10];
 
-	// ƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–
 	player->Initialize();
 
 	for (int i = 0; i < 10; i++) {
@@ -50,17 +44,15 @@ void GameMainScene::Initialize()
 
 eSceneType GameMainScene::Update()
 {
-	// ƒvƒŒƒCƒ„[‚ÌXV
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ›´æ–°
 	player->Update();
 
-	// ˆÚ“®—Ê‹——£‚ÌXV playerƒXƒs[ƒh‚ğæ“¾‚µ‚Ä+‚T‚µ‚½’l‚ğmileage‚É+‚·‚éi–ˆƒtƒŒ[ƒ€j
-	mileage += (int)player->GetSpeed() + 5;
+	// æ•µç”Ÿæˆå‡¦ç†
+	int time = player->GetTime();
 
-	// “G¶¬ˆ—
-
-	if (mileage / 20 % 100 == 0) {
+	if (time % 25 == 0) {
 		for (int i = 0; i < 10; i++) {
-			// ’l‚ªnull‚È‚ç
+			// å€¤ãŒnullãªã‚‰
 			if (enemy[i] == nullptr) {
 				int type = GetRand(3) % 3;
 				enemy[i] = new Enemy(type, enemy_image[type]);
@@ -70,28 +62,27 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
-	// “G‚ÌXV‚Æ“–‚½‚è”»’èƒ`ƒFƒbƒN
+	// æ•µã®æ›´æ–°ã¨å½“ãŸã‚Šåˆ¤å®šãƒã‚§ãƒƒã‚¯
 	for (int i = 0; i < 10; i++) 
 	{
-		// ’l‚ªnull‚Å‚È‚¢‚È‚ç
+		// å€¤ãŒnullã§ãªã„ãªã‚‰
 		if (enemy[i] != nullptr) 
 		{
-			enemy[i]->Update(player->GetSpeed());
+			enemy[i]->Update(5);
 
-			// ‰æ–ÊŠO‚És‚Á‚½‚çA“G‚ğÁ‹‚µ‚ÄƒXƒRƒA‰ÁZ
+			// ç”»é¢å¤–ã«è¡Œã£ãŸã‚‰ã€æ•µã‚’æ¶ˆå»ã—ã¦ã‚¹ã‚³ã‚¢åŠ ç®—
 			if (enemy[i]->GetLocation().y >= 640.0f) 
 			{
-				enemy_count[enemy[i]->GetType()]++;
 				enemy[i]->Finalize();
-				delete enemy[i];	// ƒƒ‚ƒŠŠJ•ú
-				enemy[i] = nullptr;// null‚É‚·‚é
+				delete enemy[i];	// ãƒ¡ãƒ¢ãƒªé–‹æ”¾
+				enemy[i] = nullptr;// nullã«ã™ã‚‹
 			}
 
-			//“–‚½‚è”»’è‚ÌŠm”F
+			//å½“ãŸã‚Šåˆ¤å®šã®ç¢ºèª
 			if (IsHitCheck(player, enemy[i]))
 			{
-				player->SetActive(false);
-				player->DecreaseHp(-50.0f);
+				enemy_count[enemy[i]->GetType()]++;
+				power += enemy[i]->GetType() + 1;
 				enemy[i]->Finalize();
 				delete enemy[i];
 				enemy[i] = nullptr;
@@ -99,8 +90,8 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
-	// ƒvƒŒƒCƒ„[‚Ì”R—¿‚©‘Ì—Í‚ª‚O–¢–‚È‚çAƒŠƒUƒ‹ƒg‚É‘JˆÚ‚·‚é
-	if (player->GetFuel() < 0.0f || player->GetHp() < 0.0f)
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç‡ƒæ–™ã‹ä½“åŠ›ãŒï¼æœªæº€ãªã‚‰ã€ãƒªã‚¶ãƒ«ãƒˆã«é·ç§»ã™ã‚‹
+	if (player->GetTime() < 0.0f)
 	{
 		return eSceneType::E_RESULT;
 	}
@@ -110,11 +101,9 @@ eSceneType GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-	// ”wŒi‰æ‘œ‚Ì•`‰æ
-	DrawGraph(0, mileage % 480 - 480, back_ground, TRUE);
-	DrawGraph(0, mileage % 480, back_ground, TRUE);
+	DrawGraph(0, 0, back_ground, TRUE);
 
-	// “G‚Ì•`‰æ
+	// æ•µã®æç”»
 	for (int i = 0; i < 10; i++)
 	{
 		if (enemy[i] != nullptr)
@@ -123,15 +112,15 @@ void GameMainScene::Draw() const
 		}
 	}
 
-	// ƒvƒŒƒCƒ„[‚Ì•`‰æ
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æç”»
 	player->Draw();
 
-	// UI‚Ì•`‰æ
+	// UIã®æç”»
 	DrawBox(500, 0, 640, 480, GetColor(0, 153, 0), TRUE);
 	SetFontSize(16);
-	DrawFormatString(510, 20, GetColor(0, 0, 0), "ƒnƒCƒXƒRƒA");
-	DrawFormatString(560, 40, GetColor(255, 255, 255), "%08d", high_score);
-	DrawFormatString(510, 80, GetColor(0, 0, 0), "”ğ‚¯‚½”");
+	DrawFormatString(510, 20, GetColor(0, 0, 0), "ãƒ‘ãƒ¯ãƒ¼");
+	DrawFormatString(560, 40, GetColor(255, 255, 255), "%d", power);
+	DrawFormatString(510, 80, GetColor(0, 0, 0), "é¿ã‘ãŸæ•°");
 
 	for (int i = 0; i < 3; i++) 
 	{
@@ -139,65 +128,18 @@ void GameMainScene::Draw() const
 		DrawFormatString(510 + (i*50),140,GetColor(255, 255, 255), "%03d",enemy_count[i]);
 	}
 
-	DrawFormatString(510, 200, GetColor(0, 0, 0), "‘–s‹——£");
-	DrawFormatString(555, 220, GetColor(255, 255, 255), "%08d", mileage / 10);
-	DrawFormatString(510, 240, GetColor(0, 0, 0), "ƒXƒs[ƒh");
-	DrawFormatString(555, 260, GetColor(255, 255, 255), "%08.1f",player->GetSpeed());
-
-	// ƒoƒŠƒA–‡”•`‰æ
-	for (int i = 0; i < player->GetBarriarCount(); i++)
-	{
-		DrawRotaGraph(520 + i * 25, 340, 0.2f, 0, barrier_image, TRUE, FALSE);
-	}
-
-	// ”R—¿ƒQ[ƒW‚Ì•`‰æ
+	// ç‡ƒæ–™ã‚²ãƒ¼ã‚¸ã®æç”»
 	float fx = 510.0f;
 	float fy = 390.0f;
-	DrawFormatStringF(fx, fy, GetColor(0, 0, 0), "FUEL METER");
-	DrawBoxAA(fx, fy + 20.0f, fx + (player->GetFuel() * 100 / 20000), fy +
+	DrawFormatStringF(fx, fy, GetColor(0, 0, 0), "TIME");
+	DrawBoxAA(fx, fy + 20.0f, fx + (player->GetTime() * 100 / 1800), fy +
 		40.0f, GetColor(0, 102, 204), TRUE);
-	DrawBoxAA(fx, fy + 20.0f, fx + 100.0f, fy + 40.0f, GetColor(0, 0, 0), FALSE);
-	// ‘Ì—ÍƒQ[ƒW‚Ì•`‰æ
-	fx = 510.0f;
-	fy = 430.0f;
-	DrawFormatStringF(fx, fy, GetColor(0, 0, 0), "PLAYER HP");
-	DrawBoxAA(fx, fy + 20.0f, fx + (player->GetHp() * 100 / 1000), fy +
-		40.0f, GetColor(255, 0, 0), TRUE);
 	DrawBoxAA(fx, fy + 20.0f, fx + 100.0f, fy + 40.0f, GetColor(0, 0, 0), FALSE);
 }
 
 void GameMainScene::Finalize()
 {
-	// ƒXƒRƒA‰ÁZ‚·‚é
-	int score = (mileage / 10 * 10);
-	for (int i = 0; i < 3; i++)
-	{
-		score += (i + 1) * 50 * enemy_count[i];
-	}
-
-	// ƒŠƒUƒ‹ƒgƒf[ƒ^‚Ì‘‚«‚İ
-	FILE* fp = nullptr;
-	// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“
-	errno_t result = fopen_s(&fp, "Resource/dat/result_data.csv", "w");
-
-	// ƒGƒ‰[ƒ`ƒFƒbƒN
-	if (result != 0)
-	{
-		throw("Resource/dat/result_data.csv‚ªŠJ‚¯‚Ü‚¹‚ñ\n");
-	}
-	// ƒXƒRƒA‚ğ•Û‘¶
-	fprintf(fp, "%d,\n", score);
-
-	// ”ğ‚¯‚½”‚Æ“¾“_‚ğ•Û‘¶
-	for (int i = 0; i < 3; i++)
-	{
-		fprintf(fp, "%d,\n", enemy_count[i]);
-	}
-
-	// ƒtƒ@ƒCƒ‹ƒNƒ[ƒY
-	fclose(fp);
-
-	// “®“IŠm•Û‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğÁ‹‚·‚é
+	// å‹•çš„ç¢ºä¿ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ¶ˆå»ã™ã‚‹
 	player->Finalize();
 	delete player;
 
@@ -213,41 +155,26 @@ void GameMainScene::Finalize()
 	delete[] enemy;
 }
 
-// Œ»İ‚ÌƒV[ƒ“î•ñæ“¾
+// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³æƒ…å ±å–å¾—
 eSceneType GameMainScene::GetNowScene() const
 {
 	return eSceneType::E_MAIN;
 }
 
-// ƒnƒCƒXƒRƒA“Ç
-void GameMainScene::ReadHighScore()
-{
-	RankingData data;
-	data.Initialize();
-
-	high_score = data.GetScore(0);
-
-	data.Finalize();
-}
-
-// ‚ ‚½‚è”»’èˆ—iƒvƒŒƒCƒ„[‚Æ“Gj
+// ã‚ãŸã‚Šåˆ¤å®šå‡¦ç†ï¼ˆãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨æ•µï¼‰
 bool GameMainScene::IsHitCheck(Player* p, Enemy* e)
 {
-	// ƒvƒŒƒCƒ„[‚ªƒoƒŠƒA‚ğ’£‚Á‚Ä‚¢‚½‚ç“–‚½‚è”»’è–³‚µ
-	if (p->IsBarrier()) {
-		return false;
-	}
 
-	// “Gî•ñ‚ª‚È‚¯‚ê‚ÎA“–‚½‚è”»’è‚ğ–³‹‚·‚é
+	// æ•µæƒ…å ±ãŒãªã‘ã‚Œã°ã€å½“ãŸã‚Šåˆ¤å®šã‚’ç„¡è¦–ã™ã‚‹
 	if (e == nullptr) {
 		return false;
 	}
 
-	// ˆÊ’uî•ñ‚Ì·•ªæ“¾
+	// ä½ç½®æƒ…å ±ã®å·®åˆ†å–å¾—
 	Vector2D diff_location = p->GetLocation() - e->GetLocation();
 
-	// “–‚½‚è”»’èƒTƒCƒY‚Ì‘å‚«‚³‚ğæ“¾
+	// å½“ãŸã‚Šåˆ¤å®šã‚µã‚¤ã‚ºã®å¤§ãã•ã‚’å–å¾—
 	Vector2D box_ex = p->GetBoxSize() + e->GetBoxSize();
-	// ƒRƒŠƒWƒ‡ƒ“ƒf[ƒ^‚æ‚èˆÊ’uî•ñ‚Ì·•ª‚ª¬‚³‚¢‚È‚çAƒqƒbƒg”»’è
+	// ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã‚ˆã‚Šä½ç½®æƒ…å ±ã®å·®åˆ†ãŒå°ã•ã„ãªã‚‰ã€ãƒ’ãƒƒãƒˆåˆ¤å®š
 	return ((fabs(diff_location.x)<box_ex.x)&&(fabsf(diff_location.y)<box_ex.y));
 }
