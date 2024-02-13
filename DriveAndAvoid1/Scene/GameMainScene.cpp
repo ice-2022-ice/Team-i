@@ -21,7 +21,7 @@ void GameMainScene::Initialize()
 {
 
 	// 画像の読み込み
-	back_ground = LoadGraph("Resource/images/back.bmp");
+	back_ground = LoadGraph("Resource/images/main.bmp");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 30, 30, enemy_image);
 
 	enemy_kusa = LoadGraph("Resource/images/Kusa.bmp");
