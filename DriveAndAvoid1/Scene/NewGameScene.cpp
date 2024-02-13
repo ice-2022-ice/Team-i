@@ -1,6 +1,8 @@
 ﻿#include "NewGameScene.h"
 #include"DxLib.h"
 #include <math.h>
+#include "GameMainScene.h"
+#include "../Utility/InputControl.h"
 
 NewGameScene::NewGameScene()
 {
@@ -29,6 +31,8 @@ void NewGameScene::Initialize()
 
 	//エラーチェック
 	if (resultStr == -1)
+	
+	NGS_Data();
 	{
 		throw("Resource/images/Stringimage.pngがありません\n");
 	}
@@ -105,3 +109,21 @@ eSceneType NewGameScene::GetNowScene() const
 	return eSceneType::E_NGS;
 }
 
+void NewGameScene::NGS_Data()
+{
+	//�t�@�C���I�[�v��
+	FILE* fp = nullptr;
+	errno_t result = fopen_s(&fp, "Resource/dat/power_data.csv", "r");
+
+	//�G���[�`�F�b�N
+	if (result != 0)
+	{
+		throw("resource/dat/power_data.csv���ǂݍ��߂܂���\n");
+	}
+
+	//���ʂ��ǂݍ���
+	fscanf_s(fp, "%6d,\n", &power);
+
+	//�t�@�C���N���[�Y
+	fclose(fp);
+}

@@ -16,6 +16,9 @@ private:
 
 	int anim_time;	//アニメーション時間
 	int phase;		//アニメーション段階(1:爆発 2:飛行 3:着地)
+			// ���݂̃p���[
+				
+	void NGS_Data();
 
 public:
 	NewGameScene();
@@ -27,5 +30,7 @@ public:
 	virtual void Finalize() override;
 
 	virtual eSceneType GetNowScene() const override;
+
+	
 };
 
