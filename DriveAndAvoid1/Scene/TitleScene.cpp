@@ -59,7 +59,7 @@ eSceneType TitleScene::Update()
 		//BGMが流れてないときに再生
 		if (CheckSoundMem(selectbgm_image) != TRUE)
 		{
-			PlaySoundMem(selectbgm_image, DX_PLAYTYPE_BACK, FALSE);
+			PlaySoundMem(selectbgm_image, DX_PLAYTYPE_BACK, TRUE);
 		}
 		//一番下に到達したら、一番上にする
 		if (menu_cursor > 3)
@@ -77,7 +77,7 @@ eSceneType TitleScene::Update()
 		//BGMが流れてないときに再生
 		if (CheckSoundMem(selectbgm_image) != TRUE)
 		{
-			PlaySoundMem(selectbgm_image, DX_PLAYTYPE_BACK, FALSE);
+			PlaySoundMem(selectbgm_image, DX_PLAYTYPE_BACK, TRUE);
 		}
 		//一番下に到達したら、一番下にする
 		if (menu_cursor < 0)
