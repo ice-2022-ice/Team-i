@@ -76,6 +76,7 @@ void RankingInputScene::Draw() const
 
 	// ‘I‘ð—p•¶Žš‚ð•`‰æ
 	const int font_size = 25;
+	SetFontSize(20);
 	for (int i = 0; i < 26; i++) 
 	{
 		int x = (i % 13) * font_size + 15;
