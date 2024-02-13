@@ -31,6 +31,11 @@ void NewGameScene::Initialize()
 	int resultStr = LoadDivGraph("Resource/images/Stringimage.png", 2, 2, 1, 100, 100, String_image);
 	int resultExp = LoadDivGraph("Resource/images/explosion.png", 16, 4, 4, 32, 32, Explosion_image);
 
+	if (resultStr == -1) 
+	{
+		throw("文字画像が無い！");
+	}
+
 	Back_image[0] = LoadGraph("Resource/images/blowback.png");
 	Back_image[1] = LoadGraph("Resource/images/sky.png");
 	Back_image[2] = LoadGraph("Resource/images/ground.png");
@@ -103,6 +108,13 @@ eSceneType NewGameScene::Update()
 			phase++;
 		}
 	}
+	else if (phase == 3) 
+	{
+		if (120 < anim_time)
+		{
+			return eSceneType::E_RESULT;
+		}
+	}
 
 	anim_time++;
 	return GetNowScene();
@@ -150,7 +162,7 @@ void NewGameScene::Draw() const
 		DrawGraph((int)(-Flying * 0.15) % 640 + 640, Altitude % 480 - 480, Back_image[1], TRUE);
 
 		//「笑」の文字
-		DrawRotaGraph(640 / 2, 480 / 2, 1.f, anim_time * 0.2, String_image[1], true);
+		DrawRotaGraph(640 / 2, 480 / 2, 1.f, anim_time * 0.3, String_image[1], true);
 
 		//記録表示
 		SetFontSize(30);
@@ -189,8 +201,24 @@ void NewGameScene::Draw() const
 //終了処理
 void NewGameScene::Finalize()
 {
-	//読み込んだ画像の削除
-	/*DeleteGraph();*/
+	//ランキングデータの読み込み
+	FILE* fp = nullptr;
+
+	//ファイルオープン
+	errno_t result = fopen_s(&fp, "Resource/dat/result_data.csv", "w");
+
+	//エラーチェック
+	if (result != 0)
+	{
+		throw("Resource/power_data.csvが開けませんでした\n");
+	}
+
+	//対象ファイルに書き込み
+
+	fprintf(fp, "%d,\n", Flying);
+
+	//ファイルクローズ
+	fclose(fp);
 }
 
 //現在のシーン情報取得

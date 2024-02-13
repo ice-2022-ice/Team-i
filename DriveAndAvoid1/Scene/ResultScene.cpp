@@ -59,16 +59,9 @@ void ResultScene::Draw() const
 	DrawBox(500, 0, 640, 480, GetColor(0, 153, 0), FALSE);
 
 	SetFontSize(20);
-	DrawString(220, 170, "ゲームオーバー", GetColor(204, 0, 0));
-	SetFontSize(16);
-	DrawString(180, 200, "走行処理		", GetColor(0, 0, 0));
-	for (int i = 0; i < 3; i++) 
-	{
-		DrawRotaGraph(230, 230 + (i * 20), 0.3f, DX_PI_F / 2, enemy_image[i], TRUE);
-		DrawFormatString(260, 222 + (i * 21), GetColor(255, 255, 255), "%6d x %4d = %6d", enemy_count[i], (i + 1) * 50, (i + 1) * 50 * enemy_count[i]);
-	}
-	DrawString(180, 290, "スコア", GetColor(0, 0, 0));
-	DrawFormatString(180, 290, 0xffffff, "		=%6d", score);
+	DrawString(220, 170, "結果！！！！", GetColor(204, 0, 0));
+	SetFontSize(50);
+	DrawFormatString(180, 480 / 2, 0xffffff, "%6d m", score);
 }
 
 void ResultScene::Finalize()
@@ -100,12 +93,6 @@ void ResultScene::ReadResultData()
 
 	//結果を読み込む
 	fscanf_s(fp, "%6d,\n", &score);
-
-	//よけた数と得点を取得
-	for (int i = 0; i < 3; i++) 
-	{
-		fscanf_s(fp, "6d,\n", &enemy_count[i]);
-	}
 
 	//ファイルクローズ
 	fclose(fp);
