@@ -8,9 +8,11 @@ private:
 
 	int Record;		//記録距離
 	int Flying;		//飛行距離
+	int Altitude;	//飛行高度
+	float Accel;		//加速度
 
 	int String_image[2];			//文字画像
-	int Back_image;					//背景画像
+	int Back_image[3];				//背景画像
 
 	int Explosion_image[16];		//爆発画像
 
