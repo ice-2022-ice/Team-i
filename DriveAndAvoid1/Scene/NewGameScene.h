@@ -3,8 +3,8 @@
 class NewGameScene : public SceneBase
 {
 private:
-	
-
+	int power;				// Œ»İ‚Ìƒpƒ[
+	void NGS_Data();
 public:
 	NewGameScene();
 	virtual ~NewGameScene();
@@ -15,5 +15,7 @@ public:
 	virtual void Finalize() override;
 
 	virtual eSceneType GetNowScene() const override;
+
+	
 };
 

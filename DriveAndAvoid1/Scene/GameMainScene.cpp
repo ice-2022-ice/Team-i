@@ -14,6 +14,7 @@ enemy(nullptr) {
 
 GameMainScene::~GameMainScene()
 {
+
 }
 
 void GameMainScene::Initialize()
@@ -128,6 +129,7 @@ void GameMainScene::Draw() const
 		DrawFormatString(510 + (i*50),140,GetColor(255, 255, 255), "%03d",enemy_count[i]);
 	}
 
+
 	// 燃料ゲージの描画
 	float fx = 510.0f;
 	float fy = 390.0f;
@@ -153,6 +155,26 @@ void GameMainScene::Finalize()
 		}
 	}
 	delete[] enemy;
+
+	//ランキングデータの読み込み
+	FILE* fp = nullptr;
+
+	//ファイルオープン
+	errno_t result = fopen_s(&fp, "Resource/dat/power_data.csv", "w");
+
+	//エラーチェック
+	if (result != 0)
+	{
+		throw("Resource/power_data.csvが開けませんでした\n");
+	}
+
+	//対象ファイルに書き込み
+	
+	fprintf(fp, "%d,\n", power);
+	
+
+	//ファイルクローズ
+	fclose(fp);
 }
 
 // 現在のシーン情報取得
