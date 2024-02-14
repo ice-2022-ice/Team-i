@@ -2,6 +2,7 @@
 #include "SceneBase.h"
 #include "../Object/Player.h" /*../Object/Player.h*/
 #include "../Object/Enemy.h"  /*../Object/Enemy.h*/
+#include "DxLib.h"
 
 class GameMainScene:public SceneBase
 {

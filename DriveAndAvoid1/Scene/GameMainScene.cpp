@@ -1,6 +1,5 @@
 ﻿#include "GameMainScene.h"
 #include "../Object/RankingData.h"
-#include "DxLib.h"
 #include <math.h>
 
 GameMainScene::GameMainScene() :back_ground(NULL), player(nullptr),
@@ -96,7 +95,7 @@ eSceneType GameMainScene::Update()
 		}
 	}
 
-	// プレイヤーの燃料か体力が０未満なら、ニューゲームに遷移する
+	// プレイヤーの値が０未満なら、ニューゲームに遷移する
 	if (player->GetTime() < 0.0f)
 	{
 		return eSceneType::E_NGS;
@@ -127,6 +126,7 @@ void GameMainScene::Draw() const
 	DrawFormatString(510, 20, GetColor(0, 0, 0), "パワー");
 	DrawFormatString(560, 40, GetColor(255, 255, 255), "%d", power);
 	DrawFormatString(510, 70, GetColor(0, 0, 0), "取れた数");
+
 
 	DrawGraph(505, 96, enemy_kusa, TRUE);
 	DrawGraph(555, 96, enemy_hayashi, TRUE);
