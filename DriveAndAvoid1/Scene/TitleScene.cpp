@@ -95,6 +95,8 @@ void TitleScene::Draw() const
 	//カーソル画像の描画
 	DrawRotaGraph(90, 220 + menu_cursor * 40, 0.7, DX_PI / 2.0, cursor_image, TRUE);
 
+	SetFontSize(20);
+	DrawString(220, 400, " 十字キーで操作してね\n Bボタンを押すと選択できるよ！", 0x000000, 0);
 }
 
 //終了時処理
