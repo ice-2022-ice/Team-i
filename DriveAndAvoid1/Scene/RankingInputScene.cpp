@@ -16,7 +16,7 @@ RankingInputScene::~RankingInputScene()
 void RankingInputScene::Initialize()
 {
 	// ‰æ‘œ‚Ì“Ç‚Ýž‚Ý
-	background_image = LoadGraph("Resource/images/Ranking.bmp");
+	background_image = LoadGraph("Resource/images/ranking.png");
 
 	// ƒGƒ‰[ƒ`ƒFƒbƒN
 	if (background_image == -1) {
@@ -71,7 +71,7 @@ void RankingInputScene::Draw() const
 	// ”wŒi‚Ì•`‰æ
 	DrawGraph(0, 0, background_image, TRUE);
 
-	DrawString(150, 100, "ƒ‰ƒ“ƒLƒ“ƒO‚É“o˜^‚µ‚Ü‚·", 0xFFFFFF);
+	DrawString(200, 150, "ƒ‰ƒ“ƒLƒ“ƒO‚É“o˜^‚µ‚Ü‚·", 0xFFFFFF);
 	DrawFormatString(100, 220, GetColor(255, 255, 255), ">%s", name);
 
 	// ‘I‘ð—p•¶Žš‚ð•`‰æ
