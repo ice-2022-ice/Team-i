@@ -52,6 +52,7 @@ void NewGameScene::Initialize()
 	bakuSE= LoadSoundMem("Resource/sounds/maou_se_onepoint03.mp3");
 	resultBGM= LoadSoundMem("Resource/sounds/maou_se_jingle05.mp3");
 	chageSE= LoadSoundMem("Resource/sounds/nc260619.mp3");
+	landingSE= LoadSoundMem("Resource/sounds/bakuhatuoti.mp3");
 	//エラーチェック
 	if (boomSE == -1)
 	{
@@ -69,7 +70,11 @@ void NewGameScene::Initialize()
 	{
 		throw("Resource/sounds/nc260619.mp3がありません\n");
 	}
-
+	if (landingSE == -1)
+	{
+		throw("Resource/sounds/bakuhatuoti.mp3がありません\n");
+	}
+	
 	NGS_Data();
 
 }
@@ -293,8 +298,9 @@ void NewGameScene::Draw() const
 		{
 			//爆発
 			DrawRotaGraph(640 / 2, 480 / 2, 15, 0, Explosion_image[num], true);
+			
 		}
-
+		
 		//記録表示
 		SetFontSize(30);
 		DrawString(50, 20, "飛距離", 0xffffff);
@@ -302,6 +308,10 @@ void NewGameScene::Draw() const
 
 		SetFontSize(64);
 		DrawFormatString(50, 50, 0xffffff, "%d m", Record);
+		if (CheckSoundMem(landingSE) != TRUE)
+		{
+			PlaySoundMem(landingSE, DX_PLAYTYPE_BACK,TRUE);
+		}
 	}
 }
 
@@ -345,6 +355,8 @@ eSceneType NewGameScene::GetNowScene() const
 
 void NewGameScene::NGS_Data()
 {
+
+
 	//�t�@�C���I�[�v��
 	FILE* fp = nullptr;
 	errno_t result = fopen_s(&fp, "Resource/dat/power_data.csv", "r");
@@ -355,6 +367,7 @@ void NewGameScene::NGS_Data()
 		throw("resource/dat/power_data.csv���ǂݍ��߂܂���\n");
 	}
 
+
 	int power;
 	//���ʂ��ǂݍ���
 	fscanf_s(fp, "%6d,\n", &power);
@@ -363,4 +376,5 @@ void NewGameScene::NGS_Data()
 
 	//�t�@�C���N���[�Y
 	fclose(fp);
+
 }

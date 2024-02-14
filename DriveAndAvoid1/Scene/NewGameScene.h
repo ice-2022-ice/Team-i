@@ -30,6 +30,7 @@ private:
 	int bakuSE;  //チャージ前SE
 	int resultBGM;//最終結果BGM
 	int chageSE;  //チャージ中SE
+	int landingSE;//着地SE
 	void NGS_Data();
 
 public:

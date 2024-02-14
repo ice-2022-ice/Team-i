@@ -13,6 +13,10 @@ private:
 	int enemy_mori;			//森のアイテム画像
 	int enemy_image[3];		// 敵画像
 	int enemy_count[3];		// 通り過ぎた敵のカウント
+
+	int touchSE[3];  //ぶつかった時のSE
+	int mainBGM;     //メイン画面BGM
+
 	Player* player;			// プレイヤー
 	Enemy** enemy;			// 敵
 public:

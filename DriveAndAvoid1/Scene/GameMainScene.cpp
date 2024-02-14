@@ -28,6 +28,14 @@ void GameMainScene::Initialize()
 	enemy_hayashi = LoadGraph("Resource/images/Hayashi.bmp");
 	enemy_mori = LoadGraph("Resource/images/Mori.bmp");
 
+	//BGM読み込み
+	mainBGM= LoadSoundMem("Resource/sounds/nc283550BGM.mp3");
+
+	//SEの読み込み
+	touchSE[0]= LoadSoundMem("Resource/sounds/nc107590.wav");
+	touchSE[1]= LoadSoundMem("Resource/sounds/nc289324.wav");
+	touchSE[2]= LoadSoundMem("Resource/sounds/nc289324.wav");
+
 	// エラーチェック
 	if (back_ground == -1) {
 		throw("画像back.bmpがありません\n");
@@ -35,7 +43,22 @@ void GameMainScene::Initialize()
 	if (result == -1) {
 		throw("画像car.bmpがありません\n");
 	}
-
+	if (touchSE[0] == -1)
+	{
+		throw("Resource/sounds/nc107590.wavがありません\n");
+	}
+	if (touchSE[1] == -1)
+	{
+		throw("Resource/sounds/nc289324.wavがありません\n");
+	}
+	if (touchSE[2] == -1)
+	{
+		throw("Resource/sounds/nc289324.wavがありません\n");
+	}
+	if (mainBGM == -1)
+	{
+		throw("Resource/sounds/nc283550BGM.mp3がありません\n");
+	}
 	// オブジェクトの生成
 	player = new Player;
 	enemy = new Enemy * [10];
@@ -52,6 +75,12 @@ eSceneType GameMainScene::Update()
 {
 	// プレイヤーの更新
 	player->Update();
+
+	//BGMの再生
+	if (CheckSoundMem(mainBGM) != TRUE)
+	{
+		PlaySoundMem(mainBGM, DX_PLAYTYPE_BACK, TRUE);
+	}
 
 	// 敵生成処理
 	int time = player->GetTime();
@@ -90,7 +119,26 @@ eSceneType GameMainScene::Update()
 				enemy_count[enemy[i]->GetType()]++;
 				power += enemy[i]->GetType() + 1;
 				enemy[i]->Finalize();
-				delete enemy[i];
+
+				int Type = enemy[i]->GetType();
+
+				//エネミー別チェック音
+					switch (Type)
+					{
+					case 0:
+						PlaySoundMem(touchSE[0], DX_PLAYTYPE_BACK);
+						break;
+					case 1:
+						PlaySoundMem(touchSE[1], DX_PLAYTYPE_BACK);
+						break;
+					case 2:
+						PlaySoundMem(touchSE[2], DX_PLAYTYPE_BACK);
+						break;
+					default:
+						break;
+					}
+
+					delete enemy[i];
 				enemy[i] = nullptr;
 			}
 		}
@@ -163,6 +211,7 @@ void GameMainScene::Finalize()
 		}
 	}
 	delete[] enemy;
+	DeleteSoundMem(mainBGM);
 
 	//ランキングデータの読み込み
 	FILE* fp = nullptr;
