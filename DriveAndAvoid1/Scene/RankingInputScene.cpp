@@ -86,7 +86,7 @@ void RankingInputScene::Draw() const
 		DrawFormatString(x, y, GetColor(255, 255, 255), "%-3c", 'A' + i);
 	}
 		DrawString(40, 405, "決定", GetColor(255, 255, 255));
-		DrawString(40 + font_size * 2, 405, "消す", GetColor(255, 255, 255));
+		//DrawString(40 + font_size * 2, 405, "消す", GetColor(255, 255, 255));
 
 	// 選択をフォーカス
 	if (cursor_y < 4)
