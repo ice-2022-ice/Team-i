@@ -11,7 +11,9 @@ enum eSceneType
 	E_RESULT,
 	E_END,
 
-	E_NGS
+	E_NGS,
+
+	E_RUD
 
 };
 

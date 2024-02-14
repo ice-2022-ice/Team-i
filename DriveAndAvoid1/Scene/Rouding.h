@@ -2,6 +2,14 @@
 #include"SceneBase.h"
 class Rouding : public SceneBase
 {
+private:
+	int x;
+	int y;
+
+	int timer;
+	int Rouding_image;
+	void RUD_Data();
+
 public:
 	Rouding();
 	virtual ~Rouding();
@@ -11,8 +19,6 @@ public:
 	virtual void Draw() const override;
 	virtual void Finalize() override;
 
-	virtual eSceneType GetNowScene() const override;
-
-private:
+	eSceneType GetNowScene() const;
 
 };

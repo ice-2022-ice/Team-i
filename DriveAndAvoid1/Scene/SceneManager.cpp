@@ -8,6 +8,7 @@
 #include "RankingDispScene.h"
 #include "RankingInputScene.h"
 
+#include"Rouding.h"
 #include"NewGameScene.h"
 
 SceneManager::SceneManager() : current_scene(nullptr)
@@ -163,6 +164,9 @@ SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 
 	case eSceneType::E_NGS:
 		return new NewGameScene;
+
+	case eSceneType::E_RUD:
+		return new Rouding;
 
 	case eSceneType::E_RESULT:
 		return new ResultScene;

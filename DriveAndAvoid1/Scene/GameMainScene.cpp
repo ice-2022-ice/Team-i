@@ -99,7 +99,7 @@ eSceneType GameMainScene::Update()
 	// プレイヤーの燃料か体力が０未満なら、ニューゲームに遷移する
 	if (player->GetTime() < 0.0f)
 	{
-		return eSceneType::E_NGS;
+		return eSceneType::E_RUD;
 	}
 
 	return GetNowScene();
