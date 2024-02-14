@@ -19,13 +19,13 @@ ResultScene::~ResultScene()
 void ResultScene::Initialize()
 {
 	//画像の読み込み
-	back_ground = LoadGraph("Resource/images/back.bmp");
+	back_ground = LoadGraph("Resource/images/main.bmp");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 30, 30, enemy_image);
 
 	//エラーチェック
 	if (back_ground == -1) 
 	{
-		throw("Resource/images/back.bmpがありません\n");
+		throw("Resource/images/Result.bmpがありません\n");
 	}
 	if (result == -1) 
 	{

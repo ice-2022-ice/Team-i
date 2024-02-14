@@ -16,7 +16,7 @@ RankingInputScene::~RankingInputScene()
 void RankingInputScene::Initialize()
 {
 	// 画像の読み込み
-	background_image = LoadGraph("Resource/images/Ranking.bmp");
+	background_image = LoadGraph("Resource/images/ranking.png");
 
 	// エラーチェック
 	if (background_image == -1) {
@@ -71,7 +71,7 @@ void RankingInputScene::Draw() const
 	// 背景の描画
 	DrawGraph(0, 0, background_image, TRUE);
 
-	DrawString(150, 100, "ランキングに登録します", 0xFFFFFF);
+	DrawString(200, 150, "ランキングに登録します", 0xFFFFFF);
 	DrawFormatString(100, 220, GetColor(255, 255, 255), ">%s", name);
 
 	// 選択用文字を描画
@@ -86,7 +86,7 @@ void RankingInputScene::Draw() const
 		DrawFormatString(x, y, GetColor(255, 255, 255), "%-3c", 'A' + i);
 	}
 		DrawString(40, 405, "決定", GetColor(255, 255, 255));
-		DrawString(40 + font_size * 2, 405, "消す", GetColor(255, 255, 255));
+		//DrawString(40 + font_size * 2, 405, "消す", GetColor(255, 255, 255));
 
 	// 選択をフォーカス
 	if (cursor_y < 4)

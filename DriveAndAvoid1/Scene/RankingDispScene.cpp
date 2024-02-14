@@ -15,12 +15,12 @@ RankingDispScene::~RankingDispScene()
 void RankingDispScene::Initialize()
 {
     //画像の読み込み
-    background_image = LoadGraph("Resource/images/Ranking.bmp");
+    background_image = LoadGraph("Resource/images/ranking.png");
 
     //エラーチェック
     if (background_image == -1)
     {
-        throw("Resource/images/Ranking.bmpがありません\n");
+        throw("Resource/images/ranking.pngがありません\n");
     }
 
     //ランキング情報を取得
@@ -43,6 +43,9 @@ void RankingDispScene::Draw() const
 {
     //背景画像の描画
     DrawGraph(0, 0, background_image, FALSE);
+
+    SetFontSize(20);
+    DrawString(150, 450, "---Bボタンを押してタイトルへ戻る---", 0x000000, 0);
 
     //取得したランキングデータを描画する
     for (int i = 0; i < 5; i++)
