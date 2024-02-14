@@ -21,8 +21,13 @@ void GameMainScene::Initialize()
 {
 
 	// 画像の読み込み
-	back_ground = LoadGraph("Resource/images/back.bmp");
+	back_ground = LoadGraph("Resource/images/main.bmp");
 	int result = LoadDivGraph("Resource/images/car.bmp", 3, 3, 1, 30, 30, enemy_image);
+
+	enemy_kusa = LoadGraph("Resource/images/Kusa.bmp");
+	enemy_hayashi = LoadGraph("Resource/images/Hayashi.bmp");
+	enemy_mori = LoadGraph("Resource/images/Mori.bmp");
+
 	// エラーチェック
 	if (back_ground == -1) {
 		throw("画像back.bmpがありません\n");
@@ -121,11 +126,14 @@ void GameMainScene::Draw() const
 	SetFontSize(16);
 	DrawFormatString(510, 20, GetColor(0, 0, 0), "パワー");
 	DrawFormatString(560, 40, GetColor(255, 255, 255), "%d", power);
-	DrawFormatString(510, 80, GetColor(0, 0, 0), "避けた数");
+	DrawFormatString(510, 70, GetColor(0, 0, 0), "取れた数");
+
+	DrawGraph(505, 96, enemy_kusa, TRUE);
+	DrawGraph(555, 96, enemy_hayashi, TRUE);
+	DrawGraph(605, 96, enemy_mori, TRUE);
 
 	for (int i = 0; i < 3; i++) 
 	{
-		DrawRotaGraph(523 + (i * 50), 120, 0.3, 0, enemy_image[i], TRUE, FALSE);
 		DrawFormatString(510 + (i*50),140,GetColor(255, 255, 255), "%03d",enemy_count[i]);
 	}
 

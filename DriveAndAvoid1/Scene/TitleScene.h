@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SceneBase.h"
+#include "NewGameScene.h"
 
 class TitleScene : public SceneBase
 {
@@ -11,6 +12,9 @@ private:
 	int menu_image;					//メニュー画像
 	int cursor_image;				//カーソル画像
 	int menu_cursor;			//メニューカーソル番号
+
+	int rotate;					//回転させる
+	int animation;				//アニメーションの時間
 
 public:
 	TitleScene();
