@@ -1,5 +1,7 @@
 #pragma once
 #include"SceneBase.h"
+#include"DxLib.h"
+
 class Rouding : public SceneBase
 {
 private:

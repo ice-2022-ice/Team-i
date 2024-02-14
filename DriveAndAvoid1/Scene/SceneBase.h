@@ -12,9 +12,7 @@ enum eSceneType
 	E_END,
 
 	E_NGS,
-
 	E_RUD
-
 };
 
 //基底シーンクラス
