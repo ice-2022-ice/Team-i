@@ -45,6 +45,7 @@ void NewGameScene::Initialize()
 	boomSE = LoadSoundMem("Resource/sounds/nc250095.mp3");
 	bakuSE= LoadSoundMem("Resource/sounds/maou_se_onepoint03.mp3");
 	resultBGM= LoadSoundMem("Resource/sounds/maou_se_jingle05.mp3");
+	chageSE= LoadSoundMem("Resource/sounds/nc260619.mp3");
 	//エラーチェック
 	if (boomSE == -1)
 	{
@@ -57,6 +58,10 @@ void NewGameScene::Initialize()
 	if (resultBGM == -1)
 	{
 		throw("Resource/sounds/maou_se_jingle05.mp3がありません\n");
+	}
+	if (chageSE == -1)
+	{
+		throw("Resource/sounds/nc260619.mp3がありません\n");
 	}
 
 	NGS_Data();
@@ -79,6 +84,7 @@ eSceneType NewGameScene::Update()
 				//受け取ったパワーを飛行用のパワーに変換
 				Power -= 0.3;
 				Nowpower += 0.3;
+				PlaySoundMem(chageSE, DX_PLAYTYPE_BACK);
 
 				//パワーが0になったら一旦アニメーションをリセット
 				if (Power < 0)
@@ -117,6 +123,7 @@ eSceneType NewGameScene::Update()
 	//飛行
 	else if (phase == 2) 
 	{
+		PlaySoundMem(chageSE, DX_PLAYTYPE_BACK);
 		//パワーを消費する
 		Nowpower -= 0.1;
 		if (0 < Nowpower) 

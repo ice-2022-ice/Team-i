@@ -23,6 +23,7 @@ private:
 	int boomSE;  //爆発SE
 	int bakuSE;  //チャージ前SE
 	int resultBGM;//最終結果BGM
+	int chageSE;  //チャージ中SE
 	void NGS_Data();
 
 public:
