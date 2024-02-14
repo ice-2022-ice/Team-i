@@ -16,19 +16,12 @@ HelpScene::~HelpScene()
 void HelpScene::Initialize()
 {
 	//画像の読み込み
-	background_image = LoadGraph("Resource/images/title2.bmp");
-	background_right_image = LoadGraph("Resource/images/title2.bmp");
+	background_image = LoadGraph("Resource/images/help.bmp");
 
 	//エラーチェック
 	if (background_image == -1)
 	{
-		throw("Resource/images/title2.bmpがありません\n");
-	}
-
-	//エラーチェック
-	if (background_right_image == -1)
-	{
-		throw("Resource/images/Title.bmpがありません\n");
+		throw("Resource/images/help.bmpがありません\n");
 	}
 }
 //更新処理
@@ -47,11 +40,8 @@ void HelpScene::Draw() const
 {
 	//背景の描画処理
 	DrawGraph(0, 0, background_image, FALSE);
-
+	
 	//ゲームの説明
-	SetFontSize(64);
-	DrawString(150, 20, "ヘルプ画面", 0x000000, 0);
-
 	SetFontSize(20);
 	DrawString(20, 160, "制限時間内にアイテムを", 0x000000, 0);
 	DrawString(20, 180, "取り続けるゲームです", 0x000000, 0);
