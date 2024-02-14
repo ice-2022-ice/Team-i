@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include"SceneBase.h"
+#include "../Object/Eventobj.h" /*../Object/Player.h*/
+
 class NewGameScene : public SceneBase
 {
 private:
@@ -8,8 +10,11 @@ private:
 
 	int Record;		//記録距離
 	int Flying;		//飛行距離
+
 	int Altitude;	//飛行高度
 	float Accel;		//加速度
+
+	int Rand_time;	//ランダムイベントの発生時間
 
 	int String_image[2];			//文字画像
 	int Back_image[3];				//背景画像
@@ -18,8 +23,9 @@ private:
 
 	int anim_time;	//アニメーション時間
 	int phase;		//アニメーション段階(1:爆発 2:飛行 3:着地)
-			// ���݂̃p���[
 				
+	Eventobj* eventobj;			// イベントオブジェクト
+
 	int boomSE;  //爆発SE
 	int bakuSE;  //チャージ前SE
 	int resultBGM;//最終結果BGM
