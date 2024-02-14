@@ -236,7 +236,7 @@ void NewGameScene::NGS_Data()
 	//�G���[�`�F�b�N
 	if (result != 0)
 	{
-		throw("resource/dat/power_data.csv���ǂݍ��߂܂���\n");
+		throw("resource/dat/power_data.csvが開けませんでした\n");
 	}
 
 	int power;
