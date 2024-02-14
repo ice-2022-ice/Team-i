@@ -159,6 +159,7 @@ SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 	{
 	case eSceneType::E_TITLE:
 		return new TitleScene;
+
 	case eSceneType::E_MAIN:
 		return new GameMainScene;
 
@@ -170,12 +171,16 @@ SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 
 	case eSceneType::E_RESULT:
 		return new ResultScene;
+	
 	case eSceneType::E_HELP:
 		return new HelpScene;
+	
 	case eSceneType::E_RANKING_DISP:
 		return new RankingDispScene;
+
 	case eSceneType::E_RANKING_INPUT:
 		return new RankingInputScene;
+	
 	default:
 		return nullptr;
 	}
