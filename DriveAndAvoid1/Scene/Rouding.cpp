@@ -1,4 +1,5 @@
 ﻿#include "Rouding.h"
+#include <DxLib.h>
 
 Rouding::Rouding() : Rouding_image(NULL)
 {
