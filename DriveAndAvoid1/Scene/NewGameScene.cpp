@@ -45,7 +45,7 @@ void NewGameScene::Initialize()
 	eventobj = new Eventobj;
 
 	// オブジェクトの初期化
-	eventobj->Initialize(0, false, 0);
+	eventobj->Initialize(0, false, 99);
 	
 	//BGM読み込み
 	boomSE = LoadSoundMem("Resource/sounds/nc250095.mp3");
@@ -206,7 +206,7 @@ eSceneType NewGameScene::Update()
 //描画処理
 void NewGameScene::Draw() const
 {
-	
+
 	//爆破
 	if (phase == 1)
 	{
@@ -235,7 +235,7 @@ void NewGameScene::Draw() const
 
 		SetFontSize(64);
 		DrawFormatString(50, 50, 0xffffff, "%.1f", Power);
-		
+
 	}
 	//飛行
 	else if (phase == 2)
@@ -262,7 +262,7 @@ void NewGameScene::Draw() const
 		DrawFormatString(50, 50, 0xffffff, "%d m", Record);
 	}
 	//着地
-	else if (phase == 3) 
+	else if (phase == 3)
 	{
 		//背景画像
 		DrawGraph((int)(-Flying * 0.15) % 640, Altitude % 480, Back_image[1], TRUE);
@@ -295,6 +295,7 @@ void NewGameScene::Draw() const
 
 		SetFontSize(64);
 		DrawFormatString(50, 50, 0xffffff, "%d m", Record);
+	}
 }
 
 //終了処理
