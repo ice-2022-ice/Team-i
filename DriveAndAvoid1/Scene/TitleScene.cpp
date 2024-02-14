@@ -3,7 +3,7 @@
 #include "DxLib.h"
 
 TitleScene::TitleScene() : background_image(NULL), menu_image(NULL),
-cursor_image(NULL), menu_cursor(0)
+cursor_image(NULL), menu_cursor(0),titlebgm(NULL),selectbgm(NULL),decisionbgm(NULL)
 {
 
 }
@@ -23,6 +23,11 @@ void TitleScene::Initialize()
 
 	cursor_image = LoadGraph("Resource/images/cone.bmp");
 
+	//BGM,SEの読み込み
+	titlebgm = LoadSoundMem("Resource/sounds/maou_bgm_neorock54.mp3");
+	selectbgm = LoadSoundMem("Resource/sounds/maou_se_system26.mp3");
+	decisionbgm = LoadSoundMem("Resource/sounds/maou_se_system27.mp3");
+
 	//エラーチェック
 	if (background_image == -1)
 	{
@@ -36,14 +41,37 @@ void TitleScene::Initialize()
 	{
 		throw("Resource/images/cone.bmpがありません\n");
 	}
+	if (titlebgm == -1)
+	{
+		throw("Resource/sounds/maou_bgm_neorock54.mp3がありません\n");
+	}
+	if (selectbgm == -1)
+	{
+		throw("Resource/sounds/maou_se_system26.mp3がありません\n");
+	}
+	if (decisionbgm == -1)
+	{
+		throw("Resource/sounds/maou_se_system27.mp3がありません\n");
+	}
 }
 
 eSceneType TitleScene::Update()
 {
+	//BGMの再生
+	if (CheckSoundMem(titlebgm) != TRUE)
+	{
+		PlaySoundMem(titlebgm, DX_PLAYTYPE_BACK, TRUE);
+	}
 	//カーソル下移動
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
 	{
 		menu_cursor++;
+
+		//BGMが流れてないときに再生
+		if (CheckSoundMem(selectbgm) != TRUE)
+		{
+			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
+		}
 		//一番下に到達したら、一番上にする
 		if (menu_cursor > 3)
 		{
@@ -56,6 +84,11 @@ eSceneType TitleScene::Update()
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_UP))
 	{
 		menu_cursor--;
+		//BGMが流れてないときに再生
+		if (CheckSoundMem(selectbgm) != TRUE)
+		{
+			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
+		}
 		//一番下に到達したら、一番下にする
 		if (menu_cursor < 0)
 		{
@@ -66,6 +99,11 @@ eSceneType TitleScene::Update()
 	//カーソル決定（決定した画面に遷移する）
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
+		//BGMが流れてないときに再生
+		if (CheckSoundMem(decisionbgm) != TRUE)
+		{
+			PlaySoundMem(decisionbgm, DX_PLAYTYPE_BACK, TRUE);
+		}
 		switch (menu_cursor)
 		{
 		case 0:
@@ -95,6 +133,7 @@ void TitleScene::Draw() const
 	//カーソル画像の描画
 	DrawRotaGraph(90, 220 + menu_cursor * 40, 0.7, DX_PI / 2.0, cursor_image, TRUE);
 
+
 }
 
 //終了時処理
@@ -104,6 +143,7 @@ void TitleScene::Finalize()
 	DeleteGraph(background_image);
 	DeleteGraph(menu_image);
 	DeleteGraph(cursor_image);
+	DeleteSoundMem(titlebgm);
 }
 
 eSceneType TitleScene::GetNowScene() const

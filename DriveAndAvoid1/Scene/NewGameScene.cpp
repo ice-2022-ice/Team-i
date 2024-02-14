@@ -46,20 +46,42 @@ void NewGameScene::Initialize()
 
 	// オブジェクトの初期化
 	eventobj->Initialize(0, false, 0);
+	
+	//BGM読み込み
+	boomSE = LoadSoundMem("Resource/sounds/nc250095.mp3");
+	bakuSE= LoadSoundMem("Resource/sounds/maou_se_onepoint03.mp3");
+	resultBGM= LoadSoundMem("Resource/sounds/maou_se_jingle05.mp3");
+	//エラーチェック
+	if (boomSE == -1)
+	{
+		throw("Resource/sounds/nc250095.mp3がありません\n");
+	}
+	if (bakuSE == -1)
+	{
+		throw("Resource/sounds/maou_se_onepoint03.mp3がありません\n");
+	}
+	if (resultBGM == -1)
+	{
+		throw("Resource/sounds/maou_se_jingle05.mp3がありません\n");
+	}
 
 	NGS_Data();
+
 }
+
 //更新処理
 eSceneType NewGameScene::Update()
 {
 	//フェーズ１：「笑」を吹き飛ばす
 	if (phase == 1) 
 	{
-		if (120 < anim_time) 
+		
+		if (90 < anim_time)
 		{
 			//パワーを消費して「爆」の文字を大きくする
-			if (0 < Power) 
+			if (0 < Power)
 			{
+
 				//受け取ったパワーを飛行用のパワーに変換
 				Power -= 0.3;
 				Nowpower += 0.3;
@@ -69,6 +91,7 @@ eSceneType NewGameScene::Update()
 				{
 					Power = 0;
 					anim_time = 0;
+					PlaySoundMem(boomSE, DX_PLAYTYPE_BACK);
 
 					//最低限のパワーを付与する(一瞬で墜落するのを防ぐため)
 					if (Nowpower < 20)Nowpower = 20;
@@ -88,9 +111,19 @@ eSceneType NewGameScene::Update()
 
 					//最初のランダムイベントをセット
 					Rand_time = GetRand(60) + 120;
+
 				}
 			}
 		}
+		else if (0 < Power)
+		{
+			//BGMが流れてないときに再生
+			if (CheckSoundMem(bakuSE) != TRUE)
+			{
+				PlaySoundMem(bakuSE, DX_PLAYTYPE_BACK, TRUE);
+			}
+		}
+		
 	}
 	//飛行
 	else if (phase == 2) 
@@ -173,6 +206,7 @@ eSceneType NewGameScene::Update()
 //描画処理
 void NewGameScene::Draw() const
 {
+	
 	//爆破
 	if (phase == 1)
 	{
@@ -201,6 +235,7 @@ void NewGameScene::Draw() const
 
 		SetFontSize(64);
 		DrawFormatString(50, 50, 0xffffff, "%.1f", Power);
+		
 	}
 	//飛行
 	else if (phase == 2)
@@ -260,7 +295,6 @@ void NewGameScene::Draw() const
 
 		SetFontSize(64);
 		DrawFormatString(50, 50, 0xffffff, "%d m", Record);
-	}
 }
 
 //終了処理
@@ -281,6 +315,12 @@ void NewGameScene::Finalize()
 	//対象ファイルに書き込み
 
 	fprintf(fp, "%d,\n", Record);
+	
+	//BGMが流れてないときに再生
+		if (CheckSoundMem(resultBGM) != TRUE)
+		{
+			PlaySoundMem(resultBGM, DX_PLAYTYPE_BACK,TRUE);
+		}
 
 	//ファイルクローズ
 	fclose(fp);

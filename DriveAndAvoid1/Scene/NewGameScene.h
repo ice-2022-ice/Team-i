@@ -23,9 +23,12 @@ private:
 
 	int anim_time;	//アニメーション時間
 	int phase;		//アニメーション段階(1:爆発 2:飛行 3:着地)
-			// ���݂̃p���[
 				
 	Eventobj* eventobj;			// イベントオブジェクト
+
+	int boomSE;  //爆発SE
+	int bakuSE;  //チャージ前SE
+	int resultBGM;//最終結果BGM
 
 	void NGS_Data();
 
