@@ -20,7 +20,7 @@ void Player::Initialize()
 	location = Vector2D(320.0f, 430.0f);
 	box_size = Vector2D(20.0f, 20.0f);
 	angle = 0.0f;
-	time = 1800;
+	time = 900;
 
 	//‰æ‘œ‚Ì“Ç‚İ‚İ
 	image = LoadGraph("Resource/images/bakuha.bmp");//car1pol.bmp

@@ -26,6 +26,7 @@ void NewGameScene::Initialize()
 
 	phase = 1;
 	anim_time = 0;
+	Rand_time = 0;
 
 	//画像の読み込み
 	int resultStr = LoadDivGraph("Resource/images/Stringimage.png", 2, 2, 1, 100, 100, String_image);
@@ -39,7 +40,13 @@ void NewGameScene::Initialize()
 	Back_image[0] = LoadGraph("Resource/images/blowback.png");
 	Back_image[1] = LoadGraph("Resource/images/sky.png");
 	Back_image[2] = LoadGraph("Resource/images/ground.png");
-	
+
+	// オブジェクトの生成
+	eventobj = new Eventobj;
+
+	// オブジェクトの初期化
+	eventobj->Initialize(0, false, 0);
+
 	NGS_Data();
 }
 //更新処理
@@ -70,11 +77,17 @@ eSceneType NewGameScene::Update()
 			//爆発する演出
 			else
 			{
-				Flying += 90 + GetRand(20);
+				//計測開始する
+				Flying += 100;
+				Record += 90 + GetRand(20);
+
 				if (60 < anim_time) 
 				{
 					phase++;
 					anim_time = 0;
+
+					//最初のランダムイベントをセット
+					Rand_time = GetRand(60) + 120;
 				}
 			}
 		}
@@ -83,7 +96,7 @@ eSceneType NewGameScene::Update()
 	else if (phase == 2) 
 	{
 		//パワーを消費する
-		Nowpower -= 0.1;
+		Nowpower -= 0.07;
 		if (0 < Nowpower) 
 		{
 			//パワーがあるなら上向きの加速度を加える
@@ -98,9 +111,40 @@ eSceneType NewGameScene::Update()
 
 		//加速度に応じて現在の高度を更新
 		Altitude += Accel;
-		Flying += 60 + GetRand(20);
 
-		//高度が0になったらフェーズ変更
+		Flying += 100;
+		Record += 60 + GetRand(20);
+
+		//ランダムイベント
+		Rand_time--;
+
+		//イベントオブジェクト更新
+		eventobj->Update(Accel);
+		Record += eventobj->GetScore();
+
+		if (Rand_time <= 0)
+		{
+			//次のランダムイベントをセット
+			Rand_time = GetRand(60) + 120;
+
+			if (GetRand(99) < 75)
+			{
+				//パワーが一定以上の場合
+				if (10 < Nowpower)
+				{
+					//イベントオブジェクト有効化
+					eventobj->Initialize(Nowpower, true, GetRand(4));
+				}
+				//落下速度と高度が十分にある場合
+				else if (Accel < -5 && 240 < Altitude)
+				{
+					//イベントオブジェクト有効化
+					eventobj->Initialize(Nowpower, true, GetRand(4));
+				}
+			}
+		}
+
+		//高度が一定以下になったらフェーズ変更
 		if (Altitude < 0) 
 		{
 			Altitude = 0;
@@ -110,6 +154,12 @@ eSceneType NewGameScene::Update()
 	}
 	else if (phase == 3) 
 	{
+		if (anim_time < 15) 
+		{
+			Flying += 100;
+			Record += 60 + GetRand(20);
+		}
+
 		if (120 < anim_time)
 		{
 			return eSceneType::E_RESULT;
@@ -143,7 +193,7 @@ void NewGameScene::Draw() const
 		size = Nowpower * 0.05 + 1;
 		if (Power <= 0 && num < 16)
 		{
-			DrawRotaGraph(640 / 2 - (50 * size), 480 / 2, size + 25, 0, Explosion_image[num], true);
+			DrawRotaGraph(640 / 2 - (50 * size), 480 / 2, size * 7, 0, Explosion_image[num], true);
 		}
 
 		SetFontSize(30);
@@ -164,13 +214,17 @@ void NewGameScene::Draw() const
 		//「笑」の文字
 		DrawRotaGraph(640 / 2, 480 / 2, 1.f, anim_time * 0.3, String_image[1], true);
 
+		// イベントオブジェクト描画
+		eventobj->Draw();
+
 		//記録表示
 		SetFontSize(30);
 		DrawString(50, 20, "飛距離", 0xffffff);
 		DrawFormatString(200, 20, 0xffffff, "%.1f", Nowpower);
+		DrawFormatString(300, 20, 0xffffff, "%d", Altitude);
 
 		SetFontSize(64);
-		DrawFormatString(50, 50, 0xffffff, "%d m", Flying);
+		DrawFormatString(50, 50, 0xffffff, "%d m", Record);
 	}
 	//着地
 	else if (phase == 3) 
@@ -182,11 +236,22 @@ void NewGameScene::Draw() const
 		DrawGraph((int)(-Flying * 0.15) % 640 + 640, Altitude % 480 - 480, Back_image[1], TRUE);
 
 		//「笑」の文字
-		DrawRotaGraph(640 / 2, 480 / 2, 1.f, 1, String_image[1], true);
+		if (anim_time < 15)DrawRotaGraph(640 / 2, 480 / 2, 1.f, anim_time * 0.3, String_image[1], true);
+		else DrawRotaGraph(640 / 2, 480 / 2, 1.f, 1, String_image[1], true);
 
+		//地面を描画する
 		int Ypos = 480 - (480 / 15) * anim_time;
 		if (Ypos < 0)Ypos = 0;
 		DrawGraph(0, Ypos, Back_image[2], true);
+
+		//爆発の表示コマ決定
+		int num = (anim_time - 15) / 4;
+
+		if (15 < anim_time && num < 16)
+		{
+			//爆発
+			DrawRotaGraph(640 / 2, 480 / 2, 15, 0, Explosion_image[num], true);
+		}
 
 		//記録表示
 		SetFontSize(30);
@@ -194,7 +259,7 @@ void NewGameScene::Draw() const
 		DrawFormatString(200, 20, 0xffffff, "%.1f", Nowpower);
 
 		SetFontSize(64);
-		DrawFormatString(50, 50, 0xffffff, "%d m", Flying);
+		DrawFormatString(50, 50, 0xffffff, "%d m", Record);
 	}
 }
 
@@ -215,10 +280,13 @@ void NewGameScene::Finalize()
 
 	//対象ファイルに書き込み
 
-	fprintf(fp, "%d,\n", Flying);
+	fprintf(fp, "%d,\n", Record);
 
 	//ファイルクローズ
 	fclose(fp);
+
+	//動的確保領域の解放
+	delete eventobj;
 }
 
 //現在のシーン情報取得
