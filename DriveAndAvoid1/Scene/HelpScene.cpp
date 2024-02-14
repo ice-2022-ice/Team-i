@@ -16,10 +16,17 @@ HelpScene::~HelpScene()
 void HelpScene::Initialize()
 {
 	//画像の読み込み
-	background_image = LoadGraph("Resource/images/Title.bmp");
+	background_image = LoadGraph("Resource/images/title2.bmp");
+	background_right_image = LoadGraph("Resource/images/title2.bmp");
 
 	//エラーチェック
 	if (background_image == -1)
+	{
+		throw("Resource/images/title2.bmpがありません\n");
+	}
+
+	//エラーチェック
+	if (background_right_image == -1)
 	{
 		throw("Resource/images/Title.bmpがありません\n");
 	}
@@ -42,15 +49,17 @@ void HelpScene::Draw() const
 	DrawGraph(0, 0, background_image, FALSE);
 
 	//ゲームの説明
-	SetFontSize(16);
-	DrawString(20, 120, "ヘルプ画面", 0xffffff, 0);
+	SetFontSize(64);
+	DrawString(150, 20, "ヘルプ画面", 0x000000, 0);
 
-	DrawString(20, 160, "これは障害物を避けながら", 0xffffff, 0);
-	DrawString(20, 180, "走り続けるゲームです", 0xffffff, 0);
-	DrawString(20, 200, "燃料が尽きるか障害物に", 0xffffff, 0);
-	DrawString(20, 220, "数回当たるとゲームオーバーです", 0xffffff, 0);
+	SetFontSize(20);
+	DrawString(20, 160, "制限時間内にアイテムを", 0x000000, 0);
+	DrawString(20, 180, "取り続けるゲームです", 0x000000, 0);
+	DrawString(20, 200, "パワーの源となるアイテムを", 0x000000, 0);
+	DrawString(20, 220, "集めてスコアを叩き出して下さい", 0x000000, 0);
+	DrawString(20, 240, "検討をお祈りします", 0x000000, 0);
 
-	DrawString(150, 450, "---Bボタンを押してタイトルへ戻る---", 0xffffff, 0);
+	DrawString(150, 450, "---Bボタンを押してタイトルへ戻る---", 0x000000, 0);
 }
 
 //終了処理
