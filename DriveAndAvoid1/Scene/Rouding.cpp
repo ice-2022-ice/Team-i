@@ -1,8 +1,8 @@
-#include "Rouding.h"
+ï»¿#include "Rouding.h"
 
-Rouding::Rouding()
+Rouding::Rouding() : Rouding_image(NULL)
 {
-
+	timer = 0;
 }
 
 
@@ -11,32 +11,44 @@ Rouding::~Rouding()
 
 }
 
-//‰Šú‰»ˆ—
+//åˆæœŸåŒ–å‡¦ç†
 void Rouding::Initialize()
 {
+	Rouding_image = LoadGraph("Resource/images/title2.bmp");
+	if (Rouding_image == -1)
+	{
+		throw ("Resource/images/title2.bmpãŒãªã„\n");
+	}
 
 }
 
-////XVˆ—
-//eSceneType Rouding::Update()
-//{
-//
-//}
+//æ›´æ–°å‡¦ç†
+eSceneType Rouding::Update()
+{
+	if (timer >= 300)
+	{
+		return eSceneType::E_NGS;
+	}
+	timer++;
+	return GetNowScene();
+}
 
-//•`‰æˆ—
+//æç”»å‡¦ç†
 void Rouding::Draw() const
 {
-
+	DrawGraph(0, 0, Rouding_image, FALSE);
+	SetFontSize(27);
+	DrawString(450, 450, "Now Loading...", 0xffffff, 0);
 }
 
-//I—¹ˆ—
+//çµ‚äº†å‡¦ç†
 void Rouding::Finalize()
 {
 
 }
 
-////Œ»İ‚ÌƒV[ƒ“î•ñæ“¾
-//eSceneType Rouding::GetNowScene() const
-//{
-//
-//}
+//ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³æƒ…å ±å–å¾—
+eSceneType Rouding::GetNowScene() const
+{
+	return eSceneType::E_RUD;
+}
