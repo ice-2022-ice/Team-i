@@ -94,8 +94,6 @@ eSceneType NewGameScene::Update()
 					anim_time = 0;
 					PlaySoundMem(boomSE, DX_PLAYTYPE_BACK);
 
-					//最低限のパワーを付与する(一瞬で墜落するのを防ぐため)
-					if (Nowpower < 20)Nowpower = 20;
 				}
 			}
 			//爆発する演出
@@ -107,6 +105,9 @@ eSceneType NewGameScene::Update()
 
 				if (60 < anim_time) 
 				{
+					//最低限のパワーを付与する(一瞬で墜落するのを防ぐため)
+					if (Nowpower < 10)Nowpower = 10;
+
 					phase++;
 					anim_time = 0;
 
@@ -354,7 +355,7 @@ void NewGameScene::NGS_Data()
 	//���ʂ��ǂݍ���
 	fscanf_s(fp, "%6d,\n", &power);
 
-	Power = (float)power;
+	Power = (float)power + 0.01;
 
 	//�t�@�C���N���[�Y
 	fclose(fp);
