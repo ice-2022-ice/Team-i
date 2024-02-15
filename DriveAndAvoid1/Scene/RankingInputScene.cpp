@@ -19,7 +19,7 @@ void RankingInputScene::Initialize()
 	background_image = LoadGraph("Resource/images/Ranking.bmp");
 
 	//BGM,SEの読み込み
-	rankingBGM= LoadSoundMem("Resource/sounds/maou_bgm_neorock54.mp3");
+	rankingBGM= LoadSoundMem("Resource/sounds/BGM009.wav");
 	selectSE= LoadSoundMem("Resource/sounds/maou_se_system26.mp3");
 
 	// エラーチェック
@@ -28,7 +28,7 @@ void RankingInputScene::Initialize()
 	}
 	if (rankingBGM == -1)
 	{
-		throw("Resource/sounds/maou_bgm_neorock54.mp3がありません\n");
+		throw("Resource/sounds/BGM009.wavがありません\n");
 	}
 	if (selectSE == -1)
 	{
@@ -62,6 +62,11 @@ void RankingInputScene::Initialize()
 eSceneType RankingInputScene::Update()
 {
 	bool is_change = false;
+	//BGMの再生
+	if (CheckSoundMem(rankingBGM) != TRUE)
+	{
+		PlaySoundMem(rankingBGM, DX_PLAYTYPE_BACK, TRUE);
+	}
 
 	// 名前入力
 	is_change = InputName();
@@ -77,11 +82,7 @@ eSceneType RankingInputScene::Update()
 		return GetNowScene();
 	}
 
-	//BGMの再生
-	if (CheckSoundMem(rankingBGM) != TRUE)
-	{
-		PlaySoundMem(rankingBGM, DX_PLAYTYPE_BACK, TRUE);
-	}
+	
 }
 
 // 描画
@@ -138,7 +139,7 @@ void RankingInputScene::Finalize()
 	// 読み込んだ画像を削除
 	DeleteGraph(background_image);
 
-	
+	DeleteSoundMem(rankingBGM);
 
 	// 動的メモリの開放
 	delete ranking;
@@ -256,7 +257,6 @@ bool RankingInputScene::InputName()
 			}
 		}
 	}
-	//BGM停止
-	DeleteSoundMem(rankingBGM);
+	
 	return false;
 }

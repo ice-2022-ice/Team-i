@@ -32,9 +32,9 @@ void GameMainScene::Initialize()
 	mainBGM= LoadSoundMem("Resource/sounds/nc283550BGM.mp3");
 
 	//SEの読み込み
-	touchSE[0]= LoadSoundMem("Resource/sounds/nc107590.wav");
+	touchSE[0]= LoadSoundMem("Resource/sounds/nice.mp3");
 	touchSE[1]= LoadSoundMem("Resource/sounds/nc289324.wav");
-	touchSE[2]= LoadSoundMem("Resource/sounds/nc289324.wav");
+	touchSE[2]= LoadSoundMem("Resource/sounds/nc107590.wav");
 
 	// エラーチェック
 	if (back_ground == -1) {
@@ -45,7 +45,7 @@ void GameMainScene::Initialize()
 	}
 	if (touchSE[0] == -1)
 	{
-		throw("Resource/sounds/nc107590.wavがありません\n");
+		throw("Resource/sounds/nice.mp3がありません\n");
 	}
 	if (touchSE[1] == -1)
 	{
@@ -53,7 +53,7 @@ void GameMainScene::Initialize()
 	}
 	if (touchSE[2] == -1)
 	{
-		throw("Resource/sounds/nc289324.wavがありません\n");
+		throw("Resource/sounds/nc107590.wavvがありません\n");
 	}
 	if (mainBGM == -1)
 	{
