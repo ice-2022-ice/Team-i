@@ -1,4 +1,4 @@
-#include "SceneManager.h"
+ï»¿#include "SceneManager.h"
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 #include "TitleScene.h"
@@ -20,68 +20,68 @@ SceneManager::~SceneManager()
 {
 
 }
-//ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‹@”\F‰Šú‰»ˆ—
+//ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼æ©Ÿèƒ½ï¼šåˆæœŸåŒ–å‡¦ç†
 void SceneManager::Initialize()
 {
-	//ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹‚ğİ’è
-	SetMainWindowText("Drive&Avoid");
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«ã‚’è¨­å®š
+	SetMainWindowText("çˆ† çˆ†");
 
-	//ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Å‹N“®
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã§èµ·å‹•
 	if (ChangeWindowMode(TRUE) != DX_CHANGESCREEN_OK)
 	{
-		throw("ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Å‹N“®‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½\n");
+		throw("ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã§èµ·å‹•ã§ãã¾ã›ã‚“ã§ã—ãŸ\n");
 	}
 
-	//DXƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰»
+	//DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®åˆæœŸåŒ–
 	if (DxLib_Init() == -1)
 	{
-		throw("Dxƒ‰ƒCƒuƒ‰ƒŠ‚ª‰Šú‰»‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½\n");
+		throw("Dxãƒ©ã‚¤ãƒ–ãƒ©ãƒªãŒåˆæœŸåŒ–ã§ãã¾ã›ã‚“ã§ã—ãŸ\n");
 	}
 
-	//•`‰ææw’èˆ—
+	//æç”»å…ˆæŒ‡å®šå‡¦ç†
 	if (SetDrawScreen(DX_SCREEN_BACK) == -1)
 	{
-		throw("w’èæ‚Ìw’è‚ª‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½\n");
+		throw("æŒ‡å®šå…ˆã®æŒ‡å®šãŒã§ãã¾ã›ã‚“ã§ã—ãŸ\n");
 	}
 
-	//ƒ^ƒCƒgƒ‹ƒV[ƒ“‚©‚çn‚ß‚é
+	//ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã‹ã‚‰å§‹ã‚ã‚‹
 	ChangeScene(eSceneType::E_TITLE);
 }
 
-//ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‹@”\FXVˆ—
+//ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼æ©Ÿèƒ½ï¼šæ›´æ–°å‡¦ç†
 void SceneManager::Update()
 {
-	//ƒtƒŒ[ƒ€ŠJnŠÔiƒ}ƒCƒNƒ•bj‚ğæ“¾
+	//ãƒ•ãƒ¬ãƒ¼ãƒ é–‹å§‹æ™‚é–“ï¼ˆãƒã‚¤ã‚¯ãƒ­ç§’ï¼‰ã‚’å–å¾—
 	LONGLONG start_time = GetNowHiPerformanceCount();
 
-	//ƒƒCƒ“ƒ‹[ƒv
+	//ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
 	while (ProcessMessage() != -1)
 	{
-		//Œ»İŠÔ‚ğæ“¾
+		//ç¾åœ¨æ™‚é–“ã‚’å–å¾—
 		LONGLONG now_time = GetNowHiPerformanceCount();
 
-		//1ƒtƒŒ[ƒ€“–‚½‚è‚ÌŠÔ‚É“’B‚µ‚½‚çAXV‹y‚Ñ•`‰æˆ—‚ğs‚¤
+		//1ãƒ•ãƒ¬ãƒ¼ãƒ å½“ãŸã‚Šã®æ™‚é–“ã«åˆ°é”ã—ãŸã‚‰ã€æ›´æ–°åŠã³æç”»å‡¦ç†ã‚’è¡Œã†
 		if ((now_time - start_time) >= DELTA_SECOND)
 		{
-			//ƒtƒŒ[ƒ€ŠJnŠÔ‚ğXV‚·‚é
+			//ãƒ•ãƒ¬ãƒ¼ãƒ é–‹å§‹æ™‚é–“ã‚’æ›´æ–°ã™ã‚‹
 			start_time = now_time;
 
-			//“ü—Í‹@”\FXVˆ—
+			//å…¥åŠ›æ©Ÿèƒ½ï¼šæ›´æ–°å‡¦ç†
 			InputControl::Update();
 
-			//XVˆ—i–ß‚è’l‚ÍŸ‚ÌƒV[ƒ“î•ñj
+			//æ›´æ–°å‡¦ç†ï¼ˆæˆ»ã‚Šå€¤ã¯æ¬¡ã®ã‚·ãƒ¼ãƒ³æƒ…å ±ï¼‰
 			eSceneType next = current_scene->Update();
 
-			//•`‰æˆ—
+			//æç”»å‡¦ç†
 			Draw();
 
-			//ƒGƒ“ƒh‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚½‚çAƒQ[ƒ€‚ğI—¹‚·‚é
+			//ã‚¨ãƒ³ãƒ‰ãŒé¸æŠã•ã‚Œã¦ã„ãŸã‚‰ã€ã‚²ãƒ¼ãƒ ã‚’çµ‚äº†ã™ã‚‹
 			if (next == eSceneType::E_END)
 			{
 				break;
 			}
 
-			//Œ»İ‚ÌƒV[ƒ“‚ÆŸ‚ÌƒV[ƒ“‚ªˆá‚Á‚Ä‚¢‚½‚çAØ‚è‘Ö‚¦ˆ—‚ğs‚¤
+			//ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã¨æ¬¡ã®ã‚·ãƒ¼ãƒ³ãŒé•ã£ã¦ã„ãŸã‚‰ã€åˆ‡ã‚Šæ›¿ãˆå‡¦ç†ã‚’è¡Œã†
 
 			if (next != current_scene->GetNowScene()) 
 			{
@@ -89,7 +89,7 @@ void SceneManager::Update()
 			}
 		}
 
-		//ESCAPEƒL[‚ª‰Ÿ‚³‚ê‚½‚çAƒQ[ƒ€‚ğI—¹‚·‚é
+		//ESCAPEã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã‚‰ã€ã‚²ãƒ¼ãƒ ã‚’çµ‚äº†ã™ã‚‹
 		if (CheckHitKey(KEY_INPUT_ESCAPE) || InputControl::GetButtonUp(XINPUT_BUTTON_BACK))
 		{
 			break;
@@ -97,10 +97,10 @@ void SceneManager::Update()
 	}
 }
 
-//ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‹@”\FI—¹ˆ—
+//ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼æ©Ÿèƒ½ï¼šçµ‚äº†æ™‚å‡¦ç†
 void SceneManager::Finalize()
 {
-	//ƒV[ƒ“î•ñ‚Ìíœ
+	//ã‚·ãƒ¼ãƒ³æƒ…å ±ã®å‰Šé™¤
 	if (current_scene != nullptr)
 	{
 		current_scene->Finalize();
@@ -108,53 +108,53 @@ void SceneManager::Finalize()
 		current_scene = nullptr;
 	}
 
-	//DXƒ‰ƒCƒuƒ‰ƒŠ‚Ìg—p‚ğI—¹‚·‚é
+	//DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ä½¿ç”¨ã‚’çµ‚äº†ã™ã‚‹
 	DxLib_End();
 }
 
-//ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‹@”\F•`‰æˆ—
+//ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼æ©Ÿèƒ½ï¼šæç”»å‡¦ç†
 void SceneManager::Draw() const
 {
-	//‰æ–Ê‚Ì‰Šú‰»
+	//ç”»é¢ã®åˆæœŸåŒ–
 	ClearDrawScreen();
 
-	//ƒV[ƒ“‚Ì•`‰æ
+	//ã‚·ãƒ¼ãƒ³ã®æç”»
 	current_scene->Draw();
 
-	//— ‰æ–Ê‚Ì“à—e‚ğ•\‰æ–Ê‚É”½‰f
+	//è£ç”»é¢ã®å†…å®¹ã‚’è¡¨ç”»é¢ã«åæ˜ 
 	ScreenFlip();
 }
 
-//ƒV[ƒ“Ø‚è‘Ö‚¦ˆ—
+//ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆå‡¦ç†
 void SceneManager::ChangeScene(eSceneType scene_type)
 {
-	//ƒV[ƒ“‚ğ¶¬‚·‚éiSceneBase‚ªŒp³‚³‚ê‚Ä‚¢‚é‚©Hj
+	//ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹ï¼ˆSceneBaseãŒç¶™æ‰¿ã•ã‚Œã¦ã„ã‚‹ã‹ï¼Ÿï¼‰
 	SceneBase* new_scene = dynamic_cast<SceneBase*>(CreateScene(scene_type));
 
-	//ƒGƒ‰[ƒ`ƒFƒbƒN
+	//ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 	if (new_scene == nullptr)
 	{
-		throw("ƒV[ƒ“‚ª¶¬‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B\n");
+		throw("ã‚·ãƒ¼ãƒ³ãŒç”Ÿæˆã§ãã¾ã›ã‚“ã§ã—ãŸã€‚\n");
 	}
 
-	//‘O‰ñƒV[ƒ“‚ÌI—¹ˆ—‚ğs‚¤
+	//å‰å›ã‚·ãƒ¼ãƒ³ã®çµ‚äº†æ™‚å‡¦ç†ã‚’è¡Œã†
 	if (current_scene != nullptr)
 	{
 		current_scene->Finalize();
 		delete current_scene;
 	}
 
-	//V‚µ‚­¶¬‚µ‚½ƒV[ƒ“‚Ì‰Šú‰»‚ğs‚¤
+	//æ–°ã—ãç”Ÿæˆã—ãŸã‚·ãƒ¼ãƒ³ã®åˆæœŸåŒ–ã‚’è¡Œã†
 	new_scene->Initialize();
 
-	//Œ»İƒV[ƒ“‚ÌXV
+	//ç¾åœ¨ã‚·ãƒ¼ãƒ³ã®æ›´æ–°
 	current_scene = new_scene;
 }
 
-//ƒV[ƒ“¶¬ˆ—
+//ã‚·ãƒ¼ãƒ³ç”Ÿæˆå‡¦ç†
 SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 {
-	//ˆø”iƒV[ƒ“ƒ^ƒCƒvj‚É‚æ‚Á‚ÄA¶¬‚·‚éƒV[ƒ“‚ğŒˆ’è‚·‚é
+	//å¼•æ•°ï¼ˆã‚·ãƒ¼ãƒ³ã‚¿ã‚¤ãƒ—ï¼‰ã«ã‚ˆã£ã¦ã€ç”Ÿæˆã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚’æ±ºå®šã™ã‚‹
 	switch (scene_type)
 	{
 	case eSceneType::E_TITLE:
