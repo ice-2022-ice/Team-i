@@ -255,8 +255,6 @@ void NewGameScene::Draw() const
 		//記録表示
 		SetFontSize(30);
 		DrawString(50, 20, "飛距離", 0xffffff);
-		DrawFormatString(200, 20, 0xffffff, "%.1f", Nowpower);
-		DrawFormatString(300, 20, 0xffffff, "%d", Altitude);
 
 		SetFontSize(64);
 		DrawFormatString(50, 50, 0xffffff, "%d m", Record);
