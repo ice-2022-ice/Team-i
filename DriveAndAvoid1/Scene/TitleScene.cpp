@@ -1,4 +1,4 @@
-#include "TitleScene.h"
+ï»¿#include "TitleScene.h"
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 
@@ -13,66 +13,66 @@ TitleScene::~TitleScene()
 
 }
 
-//‰Šú‰»ˆ—
+//åˆæœŸåŒ–å‡¦ç†
 void TitleScene::Initialize()
 {
-	//‰æ‘œ‚Ì“Ç‚İ‚İ
+	//ç”»åƒã®èª­ã¿è¾¼ã¿
 	background_image = LoadGraph("Resource/images/title2.bmp");
 
 	menu_image = LoadGraph("Resource/images/menu.bmp");
 
 	cursor_image = LoadGraph("Resource/images/cone.bmp");
 
-	//BGM,SE‚Ì“Ç‚İ‚İ
+	//BGM,SEã®èª­ã¿è¾¼ã¿
 	titlebgm = LoadSoundMem("Resource/sounds/maou_bgm_neorock54.mp3");
 	selectbgm = LoadSoundMem("Resource/sounds/maou_se_system26.mp3");
 	decisionbgm = LoadSoundMem("Resource/sounds/maou_se_system27.mp3");
 
-	//ƒGƒ‰[ƒ`ƒFƒbƒN
+	//ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 	if (background_image == -1)
 	{
-		throw("Resource/images/Title.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/images/Title.bmpãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 	if (menu_image == -1)
 	{
-		throw("Resource/images/menu.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/images/menu.bmpãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 	if (cursor_image == -1)
 	{
-		throw("Resource/images/cone.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/images/cone.bmpãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 	if (titlebgm == -1)
 	{
-		throw("Resource/sounds/maou_bgm_neorock54.mp3‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/sounds/maou_bgm_neorock54.mp3ãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 	if (selectbgm == -1)
 	{
-		throw("Resource/sounds/maou_se_system26.mp3‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/sounds/maou_se_system26.mp3ãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 	if (decisionbgm == -1)
 	{
-		throw("Resource/sounds/maou_se_system27.mp3‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/sounds/maou_se_system27.mp3ãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 }
 
 eSceneType TitleScene::Update()
 {
-	//BGM‚ÌÄ¶
+	//BGMã®å†ç”Ÿ
 	if (CheckSoundMem(titlebgm) != TRUE)
 	{
 		PlaySoundMem(titlebgm, DX_PLAYTYPE_BACK, TRUE);
 	}
-	//ƒJ[ƒ\ƒ‹‰ºˆÚ“®
+	//ã‚«ãƒ¼ã‚½ãƒ«ä¸‹ç§»å‹•
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
 	{
 		menu_cursor++;
 
-		//BGM‚ª—¬‚ê‚Ä‚È‚¢‚Æ‚«‚ÉÄ¶
+		//BGMãŒæµã‚Œã¦ãªã„ã¨ãã«å†ç”Ÿ
 		if (CheckSoundMem(selectbgm) != TRUE)
 		{
 			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
 		}
-		//ˆê”Ô‰º‚É“’B‚µ‚½‚çAˆê”Ôã‚É‚·‚é
+		//ä¸€ç•ªä¸‹ã«åˆ°é”ã—ãŸã‚‰ã€ä¸€ç•ªä¸Šã«ã™ã‚‹
 		if (menu_cursor > 3)
 		{
 			menu_cursor = 0;
@@ -80,26 +80,26 @@ eSceneType TitleScene::Update()
 	}
 
 
-	//ƒJ[ƒ\ƒ‹ãˆÚ“®
+	//ã‚«ãƒ¼ã‚½ãƒ«ä¸Šç§»å‹•
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_UP))
 	{
 		menu_cursor--;
-		//BGM‚ª—¬‚ê‚Ä‚È‚¢‚Æ‚«‚ÉÄ¶
+		//BGMãŒæµã‚Œã¦ãªã„ã¨ãã«å†ç”Ÿ
 		if (CheckSoundMem(selectbgm) != TRUE)
 		{
 			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
 		}
-		//ˆê”Ô‰º‚É“’B‚µ‚½‚çAˆê”Ô‰º‚É‚·‚é
+		//ä¸€ç•ªä¸‹ã«åˆ°é”ã—ãŸã‚‰ã€ä¸€ç•ªä¸‹ã«ã™ã‚‹
 		if (menu_cursor < 0)
 		{
 			menu_cursor = 3;
 		}
 	}
 
-	//ƒJ[ƒ\ƒ‹Œˆ’èiŒˆ’è‚µ‚½‰æ–Ê‚É‘JˆÚ‚·‚éj
+	//ã‚«ãƒ¼ã‚½ãƒ«æ±ºå®šï¼ˆæ±ºå®šã—ãŸç”»é¢ã«é·ç§»ã™ã‚‹ï¼‰
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
-		//BGM‚ª—¬‚ê‚Ä‚È‚¢‚Æ‚«‚ÉÄ¶
+		//BGMãŒæµã‚Œã¦ãªã„ã¨ãã«å†ç”Ÿ
 		if (CheckSoundMem(decisionbgm) != TRUE)
 		{
 			PlaySoundMem(decisionbgm, DX_PLAYTYPE_BACK, TRUE);
@@ -117,29 +117,29 @@ eSceneType TitleScene::Update()
 		}
 	}
 
-	//Œ»İ‚ÌƒV[ƒ“ƒ^ƒCƒv‚ğ•Ô‚·
+	//ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚¿ã‚¤ãƒ—ã‚’è¿”ã™
 	return GetNowScene();
 }
 
-//•`‰æˆ—
+//æç”»å‡¦ç†
 void TitleScene::Draw() const
 {
-	//ƒ^ƒCƒgƒ‹‰æ‘œ‚Ì•`‰æ
+	//ã‚¿ã‚¤ãƒˆãƒ«ç”»åƒã®æç”»
 	DrawGraph(0, 0, background_image, FALSE);
 
-	//ƒƒjƒ…[‰æ‘œ‚Ì•`‰æ
+	//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ç”»åƒã®æç”»
 	DrawGraph(120, 200, menu_image, TRUE);
 
-	//ƒJ[ƒ\ƒ‹‰æ‘œ‚Ì•`‰æ
+	//ã‚«ãƒ¼ã‚½ãƒ«ç”»åƒã®æç”»
 	DrawRotaGraph(90, 220 + menu_cursor * 40, 0.7, DX_PI / 2.0, cursor_image, TRUE);
 
 
 }
 
-//I—¹ˆ—
+//çµ‚äº†æ™‚å‡¦ç†
 void TitleScene::Finalize()
 {
-	//“Ç‚İ‚ñ‚¾‰æ‘œ‚Ìíœ
+	//èª­ã¿è¾¼ã‚“ã ç”»åƒã®å‰Šé™¤
 	DeleteGraph(background_image);
 	DeleteGraph(menu_image);
 	DeleteGraph(cursor_image);
