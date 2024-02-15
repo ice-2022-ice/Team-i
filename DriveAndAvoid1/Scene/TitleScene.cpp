@@ -132,7 +132,9 @@ void TitleScene::Draw() const
 	DrawRotaGraph(90, 220 + menu_cursor * 40, 0.7, DX_PI / 8.0, cursor_image, TRUE);
 
 	SetFontSize(20);
-	DrawString(220, 400, "十字キーで操作、\nBボタンで決定！", 0x000000);
+	DrawString(120, 400, "十字キーで操作、\nBボタンで決定！", 0x000000);
+	SetFontSize(16);
+	DrawString(470, 300, "効果音\nニコニ・ココモンズ\nYouTube(素材動画)\n\nBGM\n魔王魂\n\n画像\nいらすとや\nぴぽや", 0x000000);
 
 	SetFontSize(150);
 	DrawString(150, 20, "爆 爆", 0x000000);
