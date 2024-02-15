@@ -23,7 +23,7 @@ void Player::Initialize()
 	time = 1800;
 
 	//画像の読み込み
-	image = LoadGraph("Resource/images/bakuha.bmp");//car1pol.bmp
+	image = LoadGraph("Resource/images/bakuha.png");//car1pol.bmp
 
 	//エラーチェック
 	if (image == -1)

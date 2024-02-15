@@ -38,8 +38,9 @@ void NewGameScene::Initialize()
 	}
 
 	Back_image[0] = LoadGraph("Resource/images/blowback.png");
-	Back_image[1] = LoadGraph("Resource/images/sky.png");
-	Back_image[2] = LoadGraph("Resource/images/ground.png");
+	Back_image[1] = LoadGraph("Resource/images/blowback_a.png");
+	Back_image[2] = LoadGraph("Resource/images/sky.png");
+	Back_image[3] = LoadGraph("Resource/images/ground.png");
 
 	// オブジェクトの生成
 	eventobj = new Eventobj;
@@ -211,7 +212,8 @@ void NewGameScene::Draw() const
 	if (phase == 1)
 	{
 		//背景画像
-		DrawGraph(0, 0, Back_image[0], TRUE);
+		if (0 < Power || anim_time < 20)DrawGraph(0, 0, Back_image[0], false);
+		else DrawGraph(0, 0, Back_image[1], TRUE);
 
 		//文字画像
 		float size = Nowpower * 0.05 + 1;
@@ -230,21 +232,24 @@ void NewGameScene::Draw() const
 			DrawRotaGraph(640 / 2 - (50 * size), 480 / 2, size * 7, 0, Explosion_image[num], true);
 		}
 
+		int fadein = anim_time * 5;
+		if (300 < fadein || Power <= 0)fadein = 300;
+
 		SetFontSize(30);
-		DrawString(50, 20, "集めたパワー", 0xffffff);
+		DrawString(-250 + fadein, 20, "集めたパワー", 0x000000);
 
 		SetFontSize(64);
-		DrawFormatString(50, 50, 0xffffff, "%.1f", Power);
+		DrawFormatString(-250 + fadein, 50, 0x000000, "%.1f", Power);
 
 	}
 	//飛行
 	else if (phase == 2)
 	{
 		//背景画像
-		DrawGraph((int)(-Flying * 0.15) % 640, Altitude % 480, Back_image[1], TRUE);
-		DrawGraph((int)(-Flying * 0.15) % 640, Altitude % 480 - 480, Back_image[1], TRUE);
-		DrawGraph((int)(-Flying * 0.15) % 640 + 640, Altitude % 480, Back_image[1], TRUE);
-		DrawGraph((int)(-Flying * 0.15) % 640 + 640, Altitude % 480 - 480, Back_image[1], TRUE);
+		DrawGraph((int)(-Flying * 0.15) % 640, Altitude % 480, Back_image[2], TRUE);
+		DrawGraph((int)(-Flying * 0.15) % 640, Altitude % 480 - 480, Back_image[2], TRUE);
+		DrawGraph((int)(-Flying * 0.15) % 640 + 640, Altitude % 480, Back_image[2], TRUE);
+		DrawGraph((int)(-Flying * 0.15) % 640 + 640, Altitude % 480 - 480, Back_image[2], TRUE);
 
 		//「笑」の文字
 		DrawRotaGraph(640 / 2, 480 / 2, 1.f, anim_time * 0.3, String_image[1], true);
@@ -263,10 +268,10 @@ void NewGameScene::Draw() const
 	else if (phase == 3)
 	{
 		//背景画像
-		DrawGraph((int)(-Flying * 0.15) % 640, Altitude % 480, Back_image[1], TRUE);
-		DrawGraph((int)(-Flying * 0.15) % 640, Altitude % 480 - 480, Back_image[1], TRUE);
-		DrawGraph((int)(-Flying * 0.15) % 640 + 640, Altitude % 480, Back_image[1], TRUE);
-		DrawGraph((int)(-Flying * 0.15) % 640 + 640, Altitude % 480 - 480, Back_image[1], TRUE);
+		DrawGraph((int)(-Flying * 0.15) % 640, Altitude % 480, Back_image[2], TRUE);
+		DrawGraph((int)(-Flying * 0.15) % 640, Altitude % 480 - 480, Back_image[2], TRUE);
+		DrawGraph((int)(-Flying * 0.15) % 640 + 640, Altitude % 480, Back_image[2], TRUE);
+		DrawGraph((int)(-Flying * 0.15) % 640 + 640, Altitude % 480 - 480, Back_image[2], TRUE);
 
 		//「笑」の文字
 		if (anim_time < 15)DrawRotaGraph(640 / 2, 480 / 2, 1.f, anim_time * 0.3, String_image[1], true);
@@ -275,7 +280,7 @@ void NewGameScene::Draw() const
 		//地面を描画する
 		int Ypos = 480 - (480 / 15) * anim_time;
 		if (Ypos < 0)Ypos = 0;
-		DrawGraph(0, Ypos, Back_image[2], true);
+		DrawGraph(0, Ypos, Back_image[3], true);
 
 		//爆発の表示コマ決定
 		int num = (anim_time - 15) / 4;
@@ -289,7 +294,6 @@ void NewGameScene::Draw() const
 		//記録表示
 		SetFontSize(30);
 		DrawString(50, 20, "飛距離", 0xffffff);
-		DrawFormatString(200, 20, 0xffffff, "%.1f", Nowpower);
 
 		SetFontSize(64);
 		DrawFormatString(50, 50, 0xffffff, "%d m", Record);

@@ -128,9 +128,9 @@ void GameMainScene::Draw() const
 	DrawFormatString(510, 70, GetColor(0, 0, 0), "取れた数");
 
 
-	DrawGraph(505, 96, enemy_kusa, TRUE);
-	DrawGraph(555, 96, enemy_hayashi, TRUE);
-	DrawGraph(605, 96, enemy_mori, TRUE);
+	DrawGraph(505, 96, enemy_image[0], TRUE);
+	DrawGraph(555, 96, enemy_image[1], TRUE);
+	DrawGraph(605, 96, enemy_image[2], TRUE);
 
 	for (int i = 0; i < 3; i++) 
 	{

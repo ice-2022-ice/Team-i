@@ -17,7 +17,7 @@ private:
 	int Rand_time;	//ランダムイベントの発生時間
 
 	int String_image[2];			//文字画像
-	int Back_image[3];				//背景画像
+	int Back_image[4];				//背景画像
 
 	int Explosion_image[16];		//爆発画像
 

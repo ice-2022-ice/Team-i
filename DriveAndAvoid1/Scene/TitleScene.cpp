@@ -1,4 +1,4 @@
-#include "TitleScene.h"
+﻿#include "TitleScene.h"
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 
@@ -136,7 +136,7 @@ void TitleScene::Draw() const
 	DrawRotaGraph(90, 220 + menu_cursor * 40, 0.7, DX_PI / 2.0, cursor_image, TRUE);
 
 	SetFontSize(20);
-	DrawString(220, 400, " 十字キーで操作してね\n Bボタンを押すと選択できるよ！", 0x000000, 0);
+	DrawString(220, 400, "十字キーで操作、\nBボタンで決定！", 0x000000);
 
 }
 
