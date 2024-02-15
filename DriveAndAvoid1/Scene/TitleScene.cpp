@@ -1,4 +1,4 @@
-#include "TitleScene.h"
+ï»¿#include "TitleScene.h"
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 
@@ -13,38 +13,38 @@ TitleScene::~TitleScene()
 
 }
 
-//‰Šú‰»ˆ—
+//åˆæœŸåŒ–å‡¦ç†
 void TitleScene::Initialize()
 {
-	//‰æ‘œ‚Ì“Ç‚İ‚İ
+	//ç”»åƒã®èª­ã¿è¾¼ã¿
 	background_image = LoadGraph("Resource/images/title2.bmp");
 
 	menu_image = LoadGraph("Resource/images/menu.bmp");
 
 	cursor_image = LoadGraph("Resource/images/cone.bmp");
 
-	//ƒGƒ‰[ƒ`ƒFƒbƒN
+	//ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 	if (background_image == -1)
 	{
-		throw("Resource/images/Title.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/images/Title.bmpãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 	if (menu_image == -1)
 	{
-		throw("Resource/images/menu.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/images/menu.bmpãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 	if (cursor_image == -1)
 	{
-		throw("Resource/images/cone.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/images/cone.bmpãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 }
 
 eSceneType TitleScene::Update()
 {
-	//ƒJ[ƒ\ƒ‹‰ºˆÚ“®
+	//ã‚«ãƒ¼ã‚½ãƒ«ä¸‹ç§»å‹•
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
 	{
 		menu_cursor++;
-		//ˆê”Ô‰º‚É“’B‚µ‚½‚çAˆê”Ôã‚É‚·‚é
+		//ä¸€ç•ªä¸‹ã«åˆ°é”ã—ãŸã‚‰ã€ä¸€ç•ªä¸Šã«ã™ã‚‹
 		if (menu_cursor > 3)
 		{
 			menu_cursor = 0;
@@ -52,18 +52,18 @@ eSceneType TitleScene::Update()
 	}
 
 
-	//ƒJ[ƒ\ƒ‹ãˆÚ“®
+	//ã‚«ãƒ¼ã‚½ãƒ«ä¸Šç§»å‹•
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_UP))
 	{
 		menu_cursor--;
-		//ˆê”Ô‰º‚É“’B‚µ‚½‚çAˆê”Ô‰º‚É‚·‚é
+		//ä¸€ç•ªä¸‹ã«åˆ°é”ã—ãŸã‚‰ã€ä¸€ç•ªä¸‹ã«ã™ã‚‹
 		if (menu_cursor < 0)
 		{
 			menu_cursor = 3;
 		}
 	}
 
-	//ƒJ[ƒ\ƒ‹Œˆ’èiŒˆ’è‚µ‚½‰æ–Ê‚É‘JˆÚ‚·‚éj
+	//ã‚«ãƒ¼ã‚½ãƒ«æ±ºå®šï¼ˆæ±ºå®šã—ãŸç”»é¢ã«é·ç§»ã™ã‚‹ï¼‰
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
 		switch (menu_cursor)
@@ -79,30 +79,30 @@ eSceneType TitleScene::Update()
 		}
 	}
 
-	//Œ»İ‚ÌƒV[ƒ“ƒ^ƒCƒv‚ğ•Ô‚·
+	//ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚¿ã‚¤ãƒ—ã‚’è¿”ã™
 	return GetNowScene();
 }
 
-//•`‰æˆ—
+//æç”»å‡¦ç†
 void TitleScene::Draw() const
 {
-	//ƒ^ƒCƒgƒ‹‰æ‘œ‚Ì•`‰æ
+	//ã‚¿ã‚¤ãƒˆãƒ«ç”»åƒã®æç”»
 	DrawGraph(0, 0, background_image, FALSE);
 
-	//ƒƒjƒ…[‰æ‘œ‚Ì•`‰æ
+	//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ç”»åƒã®æç”»
 	DrawGraph(120, 200, menu_image, TRUE);
 
-	//ƒJ[ƒ\ƒ‹‰æ‘œ‚Ì•`‰æ
+	//ã‚«ãƒ¼ã‚½ãƒ«ç”»åƒã®æç”»
 	DrawRotaGraph(90, 220 + menu_cursor * 40, 0.7, DX_PI / 2.0, cursor_image, TRUE);
 
 	SetFontSize(20);
-	DrawString(220, 400, " \šƒL[‚Å‘€ì‚µ‚Ä‚Ë\n Bƒ{ƒ^ƒ“‚ğ‰Ÿ‚·‚Æ‘I‘ğ‚Å‚«‚é‚æI", 0x000000, 0);
+	DrawString(220, 400, " åå­—ã‚­ãƒ¼ã§æ“ä½œã—ã¦ã­\n Bãƒœã‚¿ãƒ³ã‚’æŠ¼ã™ã¨é¸æŠã§ãã‚‹ã‚ˆï¼", 0x000000, 0);
 }
 
-//I—¹ˆ—
+//çµ‚äº†æ™‚å‡¦ç†
 void TitleScene::Finalize()
 {
-	//“Ç‚İ‚ñ‚¾‰æ‘œ‚Ìíœ
+	//èª­ã¿è¾¼ã‚“ã ç”»åƒã®å‰Šé™¤
 	DeleteGraph(background_image);
 	DeleteGraph(menu_image);
 	DeleteGraph(cursor_image);
