@@ -13,6 +13,8 @@ private:
 	int name_num;			// 名前入力数
 	int cursor_x;			// カーソルx座標
 	int cursor_y;			// カーソルy座標
+	int rankingBGM;         //入力画面のBGM
+	int selectSE;          //カーソル移動のSE
 
 public:
 	RankingInputScene();

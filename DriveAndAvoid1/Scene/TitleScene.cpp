@@ -61,7 +61,7 @@ eSceneType TitleScene::Update()
 	//BGMの再生
 	if (CheckSoundMem(titlebgm) != TRUE)
 	{
-		PlaySoundMem(titlebgm, DX_PLAYTYPE_BACK, TRUE);
+		PlaySoundMem(titlebgm, DX_PLAYTYPE_LOOP, TRUE);
 	}
 	//カーソル下移動
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
@@ -101,11 +101,7 @@ eSceneType TitleScene::Update()
 	//カーソル決定（決定した画面に遷移する）
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
-		//BGMが流れてないときに再生
-		if (CheckSoundMem(decisionbgm) != TRUE)
-		{
-			PlaySoundMem(decisionbgm, DX_PLAYTYPE_BACK, TRUE);
-		}
+		PlaySoundMem(decisionbgm, DX_PLAYTYPE_BACK, TRUE);
 		switch (menu_cursor)
 		{
 		case 0:

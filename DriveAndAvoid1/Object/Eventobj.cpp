@@ -34,6 +34,13 @@ void Eventobj::Initialize(float power, bool active, int rank)
 
 	//アニメーションリセット
 	anim_time = 0;
+	//BGM,SEの読み込み
+	collideSE = LoadSoundMem("Resource/sounds/nc107590.wav");
+	//エラーチェック
+	if (collideSE == -1)
+	{
+		throw("Resource/sounds/nc107590.wavがありません\n");
+	}
 }
 
 //更新処理
@@ -51,6 +58,8 @@ void Eventobj::Update(float Accel)
 		{
 			active = false;
 			score = rank * 1500;
+			//SE再生
+			PlaySoundMem(collideSE, DX_PLAYTYPE_BACK);
 		}
 	}
 	else
