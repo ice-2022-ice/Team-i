@@ -52,6 +52,8 @@ void NewGameScene::Initialize()
 	boomSE = LoadSoundMem("Resource/sounds/nc250095.mp3");
 	bakuSE= LoadSoundMem("Resource/sounds/maou_se_onepoint03.mp3");
 	resultBGM= LoadSoundMem("Resource/sounds/maou_se_jingle05.mp3");
+	chageSE= LoadSoundMem("Resource/sounds/nc260619.mp3");
+	landingSE= LoadSoundMem("Resource/sounds/bakuhatuoti.mp3");
 	//エラーチェック
 	if (boomSE == -1)
 	{
@@ -65,7 +67,15 @@ void NewGameScene::Initialize()
 	{
 		throw("Resource/sounds/maou_se_jingle05.mp3がありません\n");
 	}
-
+	if (chageSE == -1)
+	{
+		throw("Resource/sounds/nc260619.mp3がありません\n");
+	}
+	if (landingSE == -1)
+	{
+		throw("Resource/sounds/bakuhatuoti.mp3がありません\n");
+	}
+	
 	NGS_Data();
 
 }
@@ -86,6 +96,7 @@ eSceneType NewGameScene::Update()
 				//受け取ったパワーを飛行用のパワーに変換
 				Power -= 0.3;
 				Nowpower += 0.3;
+				PlaySoundMem(chageSE, DX_PLAYTYPE_BACK);
 
 				//パワーが0になったら一旦アニメーションをリセット
 				if (Power < 0)
@@ -94,8 +105,6 @@ eSceneType NewGameScene::Update()
 					anim_time = 0;
 					PlaySoundMem(boomSE, DX_PLAYTYPE_BACK);
 
-					//最低限のパワーを付与する(一瞬で墜落するのを防ぐため)
-					if (Nowpower < 20)Nowpower = 20;
 				}
 			}
 			//爆発する演出
@@ -107,6 +116,9 @@ eSceneType NewGameScene::Update()
 
 				if (60 < anim_time) 
 				{
+					//最低限のパワーを付与する(一瞬で墜落するのを防ぐため)
+					if (Nowpower < 10)Nowpower = 10;
+
 					phase++;
 					anim_time = 0;
 
@@ -129,6 +141,7 @@ eSceneType NewGameScene::Update()
 	//飛行
 	else if (phase == 2) 
 	{
+		PlaySoundMem(chageSE, DX_PLAYTYPE_BACK);
 		//パワーを消費する
 		Nowpower -= 0.07;
 		if (0 < Nowpower) 
@@ -289,14 +302,19 @@ void NewGameScene::Draw() const
 		{
 			//爆発
 			DrawRotaGraph(640 / 2, 480 / 2, 15, 0, Explosion_image[num], true);
+			
 		}
-
+		
 		//記録表示
 		SetFontSize(30);
 		DrawString(50, 20, "飛距離", 0xffffff);
 
 		SetFontSize(64);
 		DrawFormatString(50, 50, 0xffffff, "%d m", Record);
+		if (CheckSoundMem(landingSE) != TRUE)
+		{
+			PlaySoundMem(landingSE, DX_PLAYTYPE_BACK,TRUE);
+		}
 	}
 }
 
@@ -340,6 +358,8 @@ eSceneType NewGameScene::GetNowScene() const
 
 void NewGameScene::NGS_Data()
 {
+
+
 	//�t�@�C���I�[�v��
 	FILE* fp = nullptr;
 	errno_t result = fopen_s(&fp, "Resource/dat/power_data.csv", "r");
@@ -350,12 +370,14 @@ void NewGameScene::NGS_Data()
 		throw("resource/dat/power_data.csvが開けませんでした\n");
 	}
 
+
 	int power;
 	//���ʂ��ǂݍ���
 	fscanf_s(fp, "%6d,\n", &power);
 
-	Power = (float)power;
+	Power = (float)power + 0.01;
 
 	//�t�@�C���N���[�Y
 	fclose(fp);
+
 }

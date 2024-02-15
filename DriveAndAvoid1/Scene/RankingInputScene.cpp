@@ -18,9 +18,21 @@ void RankingInputScene::Initialize()
 	// 画像の読み込み
 	background_image = LoadGraph("Resource/images/ranking.png");
 
+	//BGM,SEの読み込み
+	rankingBGM= LoadSoundMem("Resource/sounds/BGM009.wav");
+	selectSE= LoadSoundMem("Resource/sounds/maou_se_system26.mp3");
+
 	// エラーチェック
 	if (background_image == -1) {
 		throw("Resource/images/Ranking.bmpがありません\n");
+	}
+	if (rankingBGM == -1)
+	{
+		throw("Resource/sounds/BGM009.wavがありません\n");
+	}
+	if (selectSE == -1)
+	{
+		throw("Resource/sounds/maou_se_system26.mp3がありません\n");
 	}
 
 	// メモリの動的確保
@@ -37,6 +49,7 @@ void RankingInputScene::Initialize()
 	{
 		throw("Resource/dat/result_data.csvが読み込めません\n");
 	}
+	
 
 	// 結果を読み込む
 	fscanf_s(fp, "%6d,\n", &score);
@@ -49,6 +62,11 @@ void RankingInputScene::Initialize()
 eSceneType RankingInputScene::Update()
 {
 	bool is_change = false;
+	//BGMの再生
+	if (CheckSoundMem(rankingBGM) != TRUE)
+	{
+		PlaySoundMem(rankingBGM, DX_PLAYTYPE_BACK, TRUE);
+	}
 
 	// 名前入力
 	is_change = InputName();
@@ -63,6 +81,8 @@ eSceneType RankingInputScene::Update()
 	{
 		return GetNowScene();
 	}
+
+	
 }
 
 // 描画
@@ -119,6 +139,8 @@ void RankingInputScene::Finalize()
 	// 読み込んだ画像を削除
 	DeleteGraph(background_image);
 
+	DeleteSoundMem(rankingBGM);
+
 	// 動的メモリの開放
 	delete ranking;
 }
@@ -134,6 +156,11 @@ bool RankingInputScene::InputName()
 	// カーソル操作処理
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_LEFT))
 	{
+		//BGMの再生
+		if (CheckSoundMem(selectSE) != TRUE)
+		{
+			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, TRUE);
+		}
 		if (cursor_x > 0)
 		{
 			cursor_x--;
@@ -146,6 +173,11 @@ bool RankingInputScene::InputName()
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_RIGHT))
 	{
+		//BGMの再生
+		if (CheckSoundMem(selectSE) != TRUE)
+		{
+			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, TRUE);
+		}
 		if (cursor_x < 12)
 		{
 			cursor_x++;
@@ -158,6 +190,11 @@ bool RankingInputScene::InputName()
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_UP))
 	{
+		//BGMの再生
+		if (CheckSoundMem(selectSE) != TRUE)
+		{
+			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, TRUE);
+		}
 		if (cursor_y > 0)
 		{
 			cursor_y--;
@@ -166,6 +203,11 @@ bool RankingInputScene::InputName()
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
 	{
+		//BGMの再生
+		if (CheckSoundMem(selectSE) != TRUE)
+		{
+			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, TRUE);
+		}
 		if (cursor_y < 4)
 		{
 			cursor_y++;
@@ -179,9 +221,14 @@ bool RankingInputScene::InputName()
 	// カーソル位置の文字を決定する
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
+		//BGMの再生
+		if (CheckSoundMem(selectSE) != TRUE)
+		{
+			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, TRUE);
+		}
 		if (cursor_y < 2)
 		{
-			name[name_num++] = 'a' + cursor_x + (cursor_y * 13);
+			if (name_num < 14)name[name_num++] = 'a' + cursor_x + (cursor_y * 13);
 			if (name_num == 14)
 			{
 				cursor_x = 0;
@@ -190,7 +237,7 @@ bool RankingInputScene::InputName()
 		}
 		else if (cursor_y < 4)
 		{
-			name[name_num++] = 'A' + cursor_x + ((cursor_y - 2) * 13);
+			if (name_num < 14)name[name_num++] = 'A' + cursor_x + ((cursor_y - 2) * 13);
 			if (name_num == 14)
 			{
 				cursor_x = 0;
@@ -210,5 +257,6 @@ bool RankingInputScene::InputName()
 			}
 		}
 	}
+	
 	return false;
 }

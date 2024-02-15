@@ -26,7 +26,7 @@ void Rouding::Initialize()
 //更新処理
 eSceneType Rouding::Update()
 {
-	if (timer >= 300)
+	if (timer >= 120)
 	{
 		return eSceneType::E_NGS;
 	}

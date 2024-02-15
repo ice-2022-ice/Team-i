@@ -29,6 +29,7 @@ private:
 
 	int rank;		//オブジェクトのスコア倍率
 	int score;		//獲得スコア
+	int collideSE;  //ぶつかった時のSE
 
 private:
 	void Movement(float Accel);//移動処理
