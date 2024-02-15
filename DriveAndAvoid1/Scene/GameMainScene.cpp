@@ -37,12 +37,12 @@ void GameMainScene::Initialize()
 
 	// オブジェクトの生成
 	player = new Player;
-	enemy = new Enemy * [10];
+	enemy = new Enemy * [30];
 
 	// オブジェクトの初期化
 	player->Initialize();
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 30; i++) {
 		enemy[i] = nullptr;
 	}
 }
@@ -56,7 +56,7 @@ eSceneType GameMainScene::Update()
 	int time = player->GetTime();
 
 	if (time % 25 == 0) {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 30; i++) {
 			// 値がnullなら
 			if (enemy[i] == nullptr) {
 				int type = GetRand(3) % 3;
@@ -68,7 +68,7 @@ eSceneType GameMainScene::Update()
 	}
 
 	// 敵の更新と当たり判定チェック
-	for (int i = 0; i < 10; i++) 
+	for (int i = 0; i < 30; i++) 
 	{
 		// 値がnullでないなら
 		if (enemy[i] != nullptr) 
@@ -109,7 +109,7 @@ void GameMainScene::Draw() const
 	DrawGraph(0, 0, back_ground, TRUE);
 
 	// 敵の描画
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 30; i++)
 	{
 		if (enemy[i] != nullptr)
 		{
@@ -153,7 +153,7 @@ void GameMainScene::Finalize()
 	player->Finalize();
 	delete player;
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 30; i++)
 	{
 		if (enemy[i] != nullptr)
 		{
