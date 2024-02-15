@@ -15,10 +15,10 @@ Rouding::~Rouding()
 //初期化処理
 void Rouding::Initialize()
 {
-	Rouding_image = LoadGraph("Resource/images/title2.bmp");
+	Rouding_image = LoadGraph("Resource/images/loading.png");
 	if (Rouding_image == -1)
 	{
-		throw ("Resource/images/title2.bmpがない\n");
+		throw ("Resource/images/loading.pngがない\n");
 	}
 
 }

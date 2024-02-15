@@ -21,7 +21,7 @@ void TitleScene::Initialize()
 
 	menu_image = LoadGraph("Resource/images/menu.bmp");
 
-	cursor_image = LoadGraph("Resource/images/cone.bmp");
+	cursor_image = LoadGraph("Resource/images/2cone.bmp");
 
 	//エラーチェック
 	if (background_image == -1)
@@ -93,7 +93,7 @@ void TitleScene::Draw() const
 	DrawGraph(120, 200, menu_image, TRUE);
 
 	//カーソル画像の描画
-	DrawRotaGraph(90, 220 + menu_cursor * 40, 0.7, DX_PI / 2.0, cursor_image, TRUE);
+	DrawRotaGraph(90, 220 + menu_cursor * 40, 0.7, DX_PI / 4.0, cursor_image, TRUE);
 
 	SetFontSize(20);
 	DrawString(220, 400, " 十字キーで操作してね\n Bボタンを押すと選択できるよ！", 0x000000, 0);
