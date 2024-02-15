@@ -129,10 +129,13 @@ void TitleScene::Draw() const
 	DrawGraph(120, 200, menu_image, TRUE);
 
 	//カーソル画像の描画
-	DrawRotaGraph(90, 220 + menu_cursor * 40, 0.7, DX_PI / 2.0, cursor_image, TRUE);
+	DrawRotaGraph(90, 220 + menu_cursor * 40, 0.7, DX_PI / 8.0, cursor_image, TRUE);
 
 	SetFontSize(20);
 	DrawString(220, 400, "十字キーで操作、\nBボタンで決定！", 0x000000);
+
+	SetFontSize(150);
+	DrawString(150, 20, "爆 爆", 0x000000);
 
 }
 

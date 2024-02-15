@@ -1,4 +1,4 @@
-#include "HelpScene.h"
+ï»¿#include "HelpScene.h"
 #include "../utility/InputControl.h"
 #include "DxLib.h"
 
@@ -12,22 +12,22 @@ HelpScene::~HelpScene()
 
 }
 
-//‰Šú‰»ˆ—
+//åˆæœŸåŒ–å‡¦ç†
 void HelpScene::Initialize()
 {
-	//‰æ‘œ‚Ì“Ç‚İ‚İ
-	background_image = LoadGraph("Resource/images/help.bmp");
+	//ç”»åƒã®èª­ã¿è¾¼ã¿
+	background_image = LoadGraph("Resource/images/1title2.bmp");
 
-	//ƒGƒ‰[ƒ`ƒFƒbƒN
+	//ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 	if (background_image == -1)
 	{
-		throw("Resource/images/help.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/images/help.bmpãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 }
-//XVˆ—
+//æ›´æ–°å‡¦ç†
 eSceneType HelpScene::Update()
 {
-	//Bƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çƒ^ƒCƒgƒ‹‚É–ß‚é
+	//Bãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰ã‚¿ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
 		return eSceneType::E_TITLE;
@@ -35,31 +35,31 @@ eSceneType HelpScene::Update()
 	return GetNowScene();
 }
 
-//•`‰æˆ—
+//æç”»å‡¦ç†
 void HelpScene::Draw() const
 {
-	//”wŒi‚Ì•`‰æˆ—
+	//èƒŒæ™¯ã®æç”»å‡¦ç†
 	DrawGraph(0, 0, background_image, FALSE);
 	
-	//ƒQ[ƒ€‚Ìà–¾
+	//ã‚²ãƒ¼ãƒ ã®èª¬æ˜
 	SetFontSize(20);
-	DrawString(20, 160, "§ŒÀŠÔ“à‚ÉƒAƒCƒeƒ€‚ğ", 0x000000, 0);
-	DrawString(20, 180, "æ‚è‘±‚¯‚éƒQ[ƒ€‚Å‚·", 0x000000, 0);
-	DrawString(20, 200, "ƒpƒ[‚ÌŒ¹‚Æ‚È‚éƒAƒCƒeƒ€‚ğ", 0x000000, 0);
-	DrawString(20, 220, "W‚ß‚ÄƒXƒRƒA‚ğ’@‚«o‚µ‚Ä‰º‚³‚¢", 0x000000, 0);
-	DrawString(20, 260, "ŒŸ“¢‚ğ‚¨‹F‚è‚µ‚Ü‚·", 0x000000, 0);
+	DrawString(20, 160, "åˆ¶é™æ™‚é–“å†…ã«ã‚¢ã‚¤ãƒ†ãƒ ã‚’", 0x000000, 0);
+	DrawString(20, 180, "å–ã‚Šç¶šã‘ã‚‹ã‚²ãƒ¼ãƒ ã§ã™", 0x000000, 0);
+	DrawString(20, 200, "ãƒ‘ãƒ¯ãƒ¼ã®æºã¨ãªã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã‚’", 0x000000, 0);
+	DrawString(20, 220, "é›†ã‚ã¦ã‚¹ã‚³ã‚¢ã‚’å©ãå‡ºã—ã¦ä¸‹ã•ã„", 0x000000, 0);
+	DrawString(20, 260, "å¥é—˜ã‚’ãŠç¥ˆã‚Šã—ã¾ã™", 0x000000, 0);
 
-	DrawString(150, 450, "---Bƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚Äƒ^ƒCƒgƒ‹‚Ö–ß‚é---", 0x000000, 0);
+	DrawString(150, 450, "---Bãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ã¦ã‚¿ã‚¤ãƒˆãƒ«ã¸æˆ»ã‚‹---", 0x000000, 0);
 }
 
-//I—¹ˆ—
+//çµ‚äº†å‡¦ç†
 void HelpScene::Finalize()
 {
-	//“Ç‚İ‚ñ‚¾‰æ‘œ‚Ìíœ
+	//èª­ã¿è¾¼ã‚“ã ç”»åƒã®å‰Šé™¤
 	DeleteGraph(background_image);
 }
 
-//Œ»İ‚ÌƒV[ƒ“î•ñæ“¾
+//ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³æƒ…å ±å–å¾—
 eSceneType HelpScene::GetNowScene() const
 {
 	return eSceneType::E_HELP;

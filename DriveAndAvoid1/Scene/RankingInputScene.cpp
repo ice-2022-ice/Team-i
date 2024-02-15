@@ -1,4 +1,4 @@
-#include "RankingInputScene.h"
+ï»¿#include "RankingInputScene.h"
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 
@@ -12,69 +12,69 @@ RankingInputScene::~RankingInputScene()
 {
 }
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void RankingInputScene::Initialize()
 {
-	// ‰æ‘œ‚Ì“Ç‚İ‚İ
+	// ç”»åƒã®èª­ã¿è¾¼ã¿
 	background_image = LoadGraph("Resource/images/ranking.png");
 
-	//BGM,SE‚Ì“Ç‚İ‚İ
+	//BGM,SEã®èª­ã¿è¾¼ã¿
 	rankingBGM= LoadSoundMem("Resource/sounds/BGM009.wav");
 	selectSE= LoadSoundMem("Resource/sounds/maou_se_system26.mp3");
 
-	// ƒGƒ‰[ƒ`ƒFƒbƒN
+	// ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 	if (background_image == -1) {
-		throw("Resource/images/Ranking.bmp‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/images/Ranking.bmpãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 	if (rankingBGM == -1)
 	{
-		throw("Resource/sounds/BGM009.wav‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/sounds/BGM009.wavãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 	if (selectSE == -1)
 	{
-		throw("Resource/sounds/maou_se_system26.mp3‚ª‚ ‚è‚Ü‚¹‚ñ\n");
+		throw("Resource/sounds/maou_se_system26.mp3ãŒã‚ã‚Šã¾ã›ã‚“\n");
 	}
 
-	// ƒƒ‚ƒŠ‚Ì“®“IŠm•Û
+	// ãƒ¡ãƒ¢ãƒªã®å‹•çš„ç¢ºä¿
 	ranking = new RankingData;
 	ranking->Initialize();
 
-	// ƒŠƒUƒ‹ƒgƒf[ƒ^‚ğæ“¾‚·‚é
+	// ãƒªã‚¶ãƒ«ãƒˆãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
 	FILE* fp = nullptr;
-	// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³
 	errno_t result = fopen_s(&fp, "Resource/dat/result_data.csv", "r");
 
-	// ƒGƒ‰[ƒ`ƒFƒbƒN
+	// ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 	if (result != 0) 
 	{
-		throw("Resource/dat/result_data.csv‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ\n");
+		throw("Resource/dat/result_data.csvãŒèª­ã¿è¾¼ã‚ã¾ã›ã‚“\n");
 	}
 	
 
-	// Œ‹‰Ê‚ğ“Ç‚İ‚Ş
+	// çµæœã‚’èª­ã¿è¾¼ã‚€
 	fscanf_s(fp, "%6d,\n", &score);
 
-	// ƒtƒ@ƒCƒ‹ƒNƒ[ƒY
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚¯ãƒ­ãƒ¼ã‚º
 	fclose(fp);
 }
 
-// XV
+// æ›´æ–°
 eSceneType RankingInputScene::Update()
 {
 	bool is_change = false;
-	//BGM‚ÌÄ¶
+	//BGMã®å†ç”Ÿ
 	if (CheckSoundMem(rankingBGM) != TRUE)
 	{
 		PlaySoundMem(rankingBGM, DX_PLAYTYPE_BACK, TRUE);
 	}
 
-	// –¼‘O“ü—Í
+	// åå‰å…¥åŠ›
 	is_change = InputName();
 
-	// ƒV[ƒ“•ÏX‚Í‰Â”\‚©
+	// ã‚·ãƒ¼ãƒ³å¤‰æ›´ã¯å¯èƒ½ã‹
 	if (is_change)
 	{
-		// ƒ‰ƒ“ƒLƒ“ƒO•\¦‚É‘JˆÚ
+		// ãƒ©ãƒ³ã‚­ãƒ³ã‚°è¡¨ç¤ºã«é·ç§»
 		return eSceneType::E_RANKING_DISP;
 	}
 	else
@@ -85,16 +85,16 @@ eSceneType RankingInputScene::Update()
 	
 }
 
-// •`‰æ
+// æç”»
 void RankingInputScene::Draw() const
 {
-	// ”wŒi‚Ì•`‰æ
+	// èƒŒæ™¯ã®æç”»
 	DrawGraph(0, 0, background_image, TRUE);
 
-	DrawString(200, 150, "ƒ‰ƒ“ƒLƒ“ƒO‚É“o˜^‚µ‚Ü‚·", 0xFFFFFF);
+	DrawString(200, 150, "ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã«ç™»éŒ²ã—ã¾ã™", 0xFFFFFF);
 	DrawFormatString(100, 220, GetColor(255, 255, 255), ">%s", name);
 
-	// ‘I‘ğ—p•¶š‚ğ•`‰æ
+	// é¸æŠç”¨æ–‡å­—ã‚’æç”»
 	const int font_size = 25;
 	SetFontSize(20);
 	for (int i = 0; i < 26; i++) 
@@ -105,10 +105,10 @@ void RankingInputScene::Draw() const
 		y = ((i / 13) + 2) * font_size + 300;
 		DrawFormatString(x, y, GetColor(255, 255, 255), "%-3c", 'A' + i);
 	}
-		DrawString(40, 405, "Œˆ’è", GetColor(255, 255, 255));
-		//DrawString(40 + font_size * 2, 405, "Á‚·", GetColor(255, 255, 255));
+		DrawString(40, 405, "æ±ºå®š", GetColor(255, 255, 255));
+		DrawString(40 + font_size * 2, 405, "æ¶ˆã™", GetColor(255, 255, 255));
 
-	// ‘I‘ğ‚ğƒtƒH[ƒJƒX
+	// é¸æŠã‚’ãƒ•ã‚©ãƒ¼ã‚«ã‚¹
 	if (cursor_y < 4)
 	{
 		int x = cursor_x * font_size + 10;
@@ -124,24 +124,24 @@ void RankingInputScene::Draw() const
 		}
 		else
 		{
-			DrawBox(0, 0, font_size, font_size, GetColor(255, 255, 255), 
-			FALSE);
+			DrawBox(35 + font_size * 2, 400, 35 + font_size * 4, 400 + font_size,
+			GetColor(255, 255, 255), FALSE);
 		}
 	}
 }
 
-// I—¹ˆ—
+// çµ‚äº†æ™‚å‡¦ç†
 void RankingInputScene::Finalize()
 {
-	// ƒ‰ƒ“ƒLƒ“ƒO‚Éƒf[ƒ^‚ğŠi”[
+	// ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã«ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´
 	ranking->SetRankingData(score, name);
 
-	// “Ç‚İ‚ñ‚¾‰æ‘œ‚ğíœ
+	// èª­ã¿è¾¼ã‚“ã ç”»åƒã‚’å‰Šé™¤
 	DeleteGraph(background_image);
 
 	DeleteSoundMem(rankingBGM);
 
-	// “®“Iƒƒ‚ƒŠ‚ÌŠJ•ú
+	// å‹•çš„ãƒ¡ãƒ¢ãƒªã®é–‹æ”¾
 	delete ranking;
 }
 
@@ -150,13 +150,13 @@ eSceneType RankingInputScene::GetNowScene() const
 	return eSceneType::E_RANKING_INPUT;
 }
 
-// –¼‘O“ü—Í
+// åå‰å…¥åŠ›
 bool RankingInputScene::InputName()
 {
-	// ƒJ[ƒ\ƒ‹‘€ìˆ—
+	// ã‚«ãƒ¼ã‚½ãƒ«æ“ä½œå‡¦ç†
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_LEFT))
 	{
-		//BGM‚ÌÄ¶
+		//BGMã®å†ç”Ÿ
 		if (CheckSoundMem(selectSE) != TRUE)
 		{
 			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, TRUE);
@@ -173,7 +173,7 @@ bool RankingInputScene::InputName()
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_RIGHT))
 	{
-		//BGM‚ÌÄ¶
+		//BGMã®å†ç”Ÿ
 		if (CheckSoundMem(selectSE) != TRUE)
 		{
 			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, TRUE);
@@ -190,7 +190,7 @@ bool RankingInputScene::InputName()
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_UP))
 	{
-		//BGM‚ÌÄ¶
+		//BGMã®å†ç”Ÿ
 		if (CheckSoundMem(selectSE) != TRUE)
 		{
 			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, TRUE);
@@ -203,7 +203,7 @@ bool RankingInputScene::InputName()
 
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
 	{
-		//BGM‚ÌÄ¶
+		//BGMã®å†ç”Ÿ
 		if (CheckSoundMem(selectSE) != TRUE)
 		{
 			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, TRUE);
@@ -218,10 +218,10 @@ bool RankingInputScene::InputName()
 		}
 	}
 
-	// ƒJ[ƒ\ƒ‹ˆÊ’u‚Ì•¶š‚ğŒˆ’è‚·‚é
+	// ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã®æ–‡å­—ã‚’æ±ºå®šã™ã‚‹
 	if (InputControl::GetButtonDown(XINPUT_BUTTON_B))
 	{
-		//BGM‚ÌÄ¶
+		//BGMã®å†ç”Ÿ
 		if (CheckSoundMem(selectSE) != TRUE)
 		{
 			PlaySoundMem(selectSE, DX_PLAYTYPE_BACK, TRUE);
