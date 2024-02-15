@@ -16,6 +16,10 @@ private:
 	int rotate;					//回転させる
 	int animation;				//アニメーションの時間
 
+	int titlebgm;              //タイトル画面のBGM
+	int selectbgm;             //カーソル移動のSE
+	int decisionbgm;           //決定時のSE
+
 public:
 	TitleScene();
 	virtual ~TitleScene();
